@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 @Data
+
 @NoArgsConstructor
 public class userMember {
     private Long idx;

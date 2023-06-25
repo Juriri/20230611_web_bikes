@@ -4,12 +4,57 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>자전거 </title>
+    <title>로그인 </title>
+    <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
 </head>
 <body>
 <header th:replace="~{dagn/common/dagn_head :: dagn_head}"></header>>
+<br>
+<br>
+<br>
+<br>
+<div class="board_body">
+    <div id="login-title">Login MyBoard</div>
+    <button id="login-kakao-btn" onclick="location.href='https://kauth.kakao.com/oauth/authorize?client_id=&redirect_uri=http://localhost:8080/user/kakao/callback&response_type=code'">
+        카카오로 로그인하기
+    </button>
 
+    <button id="login-id-btn" onclick="location.href='/user/signup'">
+        회원 가입하기
+    </button>
 
+    <form action="/user/login" method="post">
+        <div class="login-id-label">아이디</div>
+        <input type="text" name="username" class="login-input-box">
+
+        <div class="login-id-label">비밀번호</div>
+        <input type="password" name="password" class="login-input-box">
+
+        <div class="login-id-label">비밀번호 확인</div>
+        <input type="password" name="checkPw" class="login-input-box">
+
+        <button id="login-id-submit">로그인</button>
+    </form>
+    <div id="login-failed" style="display:none" class="alert alert-danger" role="alert">로그인에 실패하였습니다.</div>
+</div>
+
+</body>
+
+<script>
+
+    const href = location.href;
+
+    const queryString = href.substring(href.indexOf("?")+1)
+
+    if (queryString === 'error') {
+
+        const errorDiv = document.getElementById('login-failed');
+
+        errorDiv.style.display = 'block';
+
+    }
+
+</script>
 
 <!-- FOOTER -->
 <footer class="container">
