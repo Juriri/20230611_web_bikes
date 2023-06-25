@@ -1,22 +1,19 @@
 package com.main;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
-import com.main.Interface.userInterface;
+import com.user.service.userService;
+import com.user.member.userDTO;
 
 @Controller
+@RestController
+@AllArgsConstructor
+@ComponentScan(basePackages = {"com.user.service"})
 public class userController {
-    @Autowired
-    private userInterface mapper;
+    private final userService userService;
 
     @GetMapping("/user/login")
     public String login() {
@@ -29,5 +26,11 @@ public class userController {
     public String signup() {
         System.out.println("signup go");
         return "user/user_signup";
+    }
+
+    @PostMapping("/user/save")
+    public String saveUser(userDTO userDTO) {
+        System.out.println("회원가입 요청");
+        return userService.saveUser(userDTO);
     }
 }

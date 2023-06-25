@@ -1,23 +1,33 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
 <header th:replace="~{dagn/common/dagn_head :: dagn_head}"></header>>
+<br>
+<br>
+<br>
 <div id ="login-form">
   <div id="login-title">Sign up</div>
-  <form action="/user/signup" method="post">
+  <form th:action="@{/user/save}" method="post">
     <div class="login-id-label">Username</div>
-    <input type="text" name="username" placeholder="Username" class="login-input-box">
+    <label>
+      <input type="text" name="username" placeholder="Username" class="login-input-box">
+    </label>
 
     <div class="login-id-label">Password</div>
-    <input type="password" name="password" class="login-input-box">
+    <label>
+      <input type="password" name="password" class="login-input-box">
+    </label>
 
-    <div class="login-id-label">E-mail</div>
-    <input type="text" name="email" placeholder="E-mail" class="login-input-box">
-    <button id="login-id-submit">회원 가입</button>
+    <div class="login-id-label">Name</div>
+    <label>
+      <input type="text" name="name" placeholder="name" class="login-input-box">
+    </label>
+    <button id="login-id-submit">가입하기</button>
   </form>
 </div>
 </body>

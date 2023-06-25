@@ -6,7 +6,7 @@
 <mapper namespace="com.main.Interface.userInterface">
 
     <!-- 전체 select -->
-    <select id="list" resultType="com.user.member.userMember">
+    <select id="list" resultType="com.user.member.userEntity">
         select * from Dagn order by num desc;
     </select>
 </mapper>
