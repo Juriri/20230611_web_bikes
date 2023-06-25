@@ -1,30 +1,22 @@
 package com.user.service;
 
-import lombok.AllArgsConstructor;
+import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import com.user.repo.userRepository;
 import com.user.member.userDTO;
-import com.user.security.WebSecurityConfig;
-
+import org.springframework.web.servlet.ModelAndView;
 
 @Service
-@AllArgsConstructor
-@ComponentScan(basePackages = {"com.user.repo"})
+@Log
 public class userService {
-    private userRepository userRepository;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private userDTO userDTO;
+    private ModelAndView mv;
 
-    public String saveUser(userDTO userDTO) {
-        //비밀번호 암호화
-        userDTO.setUser_password(passwordEncoder.encode(userDTO.getUser_password()));
-        userRepository.save(userDTO.toEntity());
+    private BCryptPasswordEncoder pEncoder = new BCryptPasswordEncoder();
 
-        return userDTO.getUser_id();
-    }
+
+
+
 }

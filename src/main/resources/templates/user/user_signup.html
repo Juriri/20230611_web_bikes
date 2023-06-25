@@ -10,24 +10,25 @@
 <br>
 <br>
 <br>
+<br>
 <div id ="login-form">
   <div id="login-title">Sign up</div>
   <form th:action="@{/user/save}" method="post">
     <div class="login-id-label">Username</div>
     <label>
-      <input type="text" name="username" placeholder="Username" class="login-input-box">
+      <input type="text" name="id" placeholder="id" class="login-input-box">
     </label>
 
     <div class="login-id-label">Password</div>
     <label>
-      <input type="password" name="password" class="login-input-box">
+      <input type="password" name="password" placeholder="password" class="login-input-box">
     </label>
 
     <div class="login-id-label">Name</div>
     <label>
       <input type="text" name="name" placeholder="name" class="login-input-box">
+      <input type="submit" id="login-id-submit" value="가입하기">
     </label>
-    <button id="login-id-submit">가입하기</button>
   </form>
 </div>
 </body>

@@ -56,6 +56,7 @@ dependencies {
 
     //implementation "com.kakao.sdk:v2-user:2.12.0" // 카카오 로그인
     implementation group: 'com.agoda.kakao', name: 'kakao', version: '2.3.4'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
 
 }
 

@@ -1,8 +1,10 @@
 package com.user.member;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
 public class userDTO {
     private String user_id;
     private String user_name;
@@ -16,4 +18,5 @@ public class userDTO {
                 .build();
 
     }
+
 }

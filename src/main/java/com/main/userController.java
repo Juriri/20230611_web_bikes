@@ -1,20 +1,22 @@
 package com.main;
 
+import com.main.Interface.dagnInterface;
+import com.main.Interface.userInterface;
+import com.user.member.userDTO;
+import com.user.member.userEntity;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import com.user.service.userService;
-import com.user.member.userDTO;
-
 @Controller
-@RestController
 @AllArgsConstructor
-@ComponentScan(basePackages = {"com.user.service"})
-public class userController {
-    private final userService userService;
 
+public class userController {
+    @Autowired
+    private userInterface user_mapper;
     @GetMapping("/user/login")
     public String login() {
         System.out.println("login go");
@@ -29,8 +31,12 @@ public class userController {
     }
 
     @PostMapping("/user/save")
-    public String saveUser(userDTO userDTO) {
-        System.out.println("회원가입 요청");
-        return userService.saveUser(userDTO);
+    public String saveUser(@RequestParam String id, @RequestParam String password, @RequestParam String name,  Model model) {
+        System.out.println("id: "+id+" password: "+password+" name: "+name);
+        String user_id = id;
+        String user_password=password;
+        String user_name = name;
+        user_mapper.userInsert(new userDTO(user_id, user_password, user_name));
+        return "user/user_login";
     }
 }
