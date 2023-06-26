@@ -4,35 +4,35 @@
                 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.main.Interface.dagnInterface">
-<!-- 전체 select -->
-<select id="list" resultType="com.dagn.member.dagnMember">
-    select * from Dagn order by num desc;
-</select>
+    <!-- 전체 select -->
+    <select id="list" resultType="com.dagn.member.dagnMember">
+        select * from Dagn order by num desc;
+    </select>
 
-<!--조건 select -->
-<select id="dagnSelect" parameterType="java.util.Map" resultType="com.dagn.member.dagnMember">
-    SELECT * FROM Dagn
-    WHERE(num LIKE CONCAT('%', #{keyword}, '%') AND #{searchType} = 'num')
-    OR (Dagn_user_id LIKE CONCAT('%', #{keyword}, '%') AND #{searchType} = 'Dagn_user_id')
-    OR (Dagn_title LIKE CONCAT('%', #{keyword}, '%') AND #{searchType} = 'Dagn_title')
-</select>
+    <!--조건 select -->
+    <select id="dagnSelect" parameterType="java.util.Map" resultType="com.dagn.member.dagnMember">
+        SELECT * FROM Dagn
+        WHERE(num LIKE CONCAT('%', #{keyword}, '%') AND #{searchType} = 'num')
+        OR (Dagn_user_id LIKE CONCAT('%', #{keyword}, '%') AND #{searchType} = 'Dagn_user_id')
+        OR (Dagn_title LIKE CONCAT('%', #{keyword}, '%') AND #{searchType} = 'Dagn_title')
+    </select>
 
-<!-- dagnInsert -->
-<insert id="dagnInsert" parameterType="com.dagn.member.dagnMember">
-    insert into Dagn values(#{num}, #{Dagn_user_id}, #{Dagn_title}, #{Dagn_create_date}, #{Dagn_modified_date})
-</insert>
+    <!-- dagnInsert -->
+    <insert id="dagnInsert" parameterType="com.dagn.member.dagnMember">
+        insert into Dagn values(#{num}, #{Dagn_user_id}, #{Dagn_title}, #{Dagn_create_date}, #{Dagn_modified_date})
+    </insert>
 
-<!-- dagnUpdate -->
-<update id="dagnUpdate" parameterType="java.util.Map">
-    update Dagn set Dagn_title=#{Dagn_title} where num=#{num}
-</update>
-<!-- <update id="dagnRerange">
-    UPDATE Dagn, (SELECT @num := 0) AS num_init
-    SET num = (@num := @num + 1);
-</update> -->
+    <!-- dagnUpdate -->
+    <update id="dagnUpdate" parameterType="java.util.Map">
+        update Dagn set Dagn_title=#{Dagn_title} where num=#{num}
+    </update>
+    <!-- <update id="dagnRerange">
+        UPDATE Dagn, (SELECT @num := 0) AS num_init
+        SET num = (@num := @num + 1);
+    </update> -->
 
-<!-- dagnDelete -->
-<delete id="dagnDelete" parameterType="java.util.Map">
-    delete from Dagn where Dagn_title=#{Dagn_title} and num=#{num};
-</delete>
+    <!-- dagnDelete -->
+    <delete id="dagnDelete" parameterType="java.util.Map">
+        delete from Dagn where Dagn_title=#{Dagn_title} and num=#{num};
+    </delete>
 </mapper>

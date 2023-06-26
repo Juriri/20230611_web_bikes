@@ -3,11 +3,13 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.main.Interface.userInterface">
-    <select id="findById" parameterType="String" resultType="int">
-        select count(user_id) from user where user_id = #{user_id}
+    <select id="getpwByID" parameterType="String" resultType="String">
+        SELECT COALESCE(
+        (SELECT user_password FROM User WHERE user_id = #{user_id} LIMIT 1)
+            ,false)
     </select>
-    <select id="userList" resultType="com.user.member.userDTO">
-        select * from User;
+    <select id="findById" parameterType="String" resultType="int">
+        select count(user_id) from User where user_id = #{user_id}
     </select>
 
     <insert id="userInsert" parameterType="com.user.member.userDTO">

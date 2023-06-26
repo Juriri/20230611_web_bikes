@@ -6,8 +6,9 @@ import java.util.List;
 
 @Mapper
 public interface userInterface {
-    //전체 출력
-    public List<userDTO> userList();
+    //중복 id 찾기
     public int findById(String user_id);
+    public String getpwByID(String user_id);
+    //회원가입 요청
     public void userInsert(userDTO userDTO);
 }

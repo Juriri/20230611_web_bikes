@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>로그인 </title>
-    <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 <body>
 <header th:replace="~{dagn/common/dagn_head :: dagn_head}"></header>>
@@ -15,15 +15,14 @@
 <br>
 <div class="board_body">
     <div id="login-title">Login MyBoard</div>
-    <button id="login-kakao-btn" onclick="location.href='https://kauth.kakao.com/oauth/authorize?client_id=&redirect_uri=http://localhost:8080/user/kakao/callback&response_type=code'">
-        카카오로 로그인하기
-    </button>
+<!--    <button id="login-kakao-btn" onclick="location.href='https://kauth.kakao.com/oauth/authorize?client_id=&redirect_uri=http://localhost:8080/user/kakao/callback&response_type=code'">-->
+<!--        카카오로 로그인하기-->
+<!--    </button>-->
 
     <button id="login-id-btn" onclick="location.href='/user/signup'">
         회원 가입하기
     </button>
 
-<!--    <form action="/user/login" method="post">-->
         <div class="login-id-label">아이디</div>
         <input type="text" id="user_id" name="user_id" class="login-input-box">
 
@@ -34,7 +33,7 @@
         <input type="password" id="check_password" name="check_password" class="login-input-box">
 
         <button id="login-id-submit" onclick="btn_signin()" >로그인</button>
-<!--    </form>-->
+
     <div id="login-failed" style="display:none" class="alert alert-danger" role="alert">로그인에 실패하였습니다.</div>
 </div>
 <script type="text/javascript">
@@ -44,7 +43,6 @@
             "user_password" : $('#user_password').val(),
             "check_password" : $('#check_password').val()
         };
-
         $.ajax({
             async: true,
             type : 'POST',
@@ -53,16 +51,38 @@
             url : "/user/loginclick",
             dataType : "json",
 
-            success : function(data) {
-                if (data === false) {
-                    alert("비밀번호가 서로 일치하지 않습니다. 다시 입력하세요.");
+            success: function(data) {
+                /*{0=로그인 성공입니다. }
+                  {1=입력하신 두 패스워드가 일치하지 않습니다. }
+                  {2=입력하신 id의 비밀번호가 아닙니다. }
+                  {3=입력하신 id는 없는 id입니다. }*/
+                if (data && typeof data === "object") {
+                    var responseData = data;
+                    var value = null;
+
+                    for (var key in responseData) {
+                        if (responseData.hasOwnProperty(key)) {
+                            value = responseData[key];
+                            alert(value);
+                            if (key === "0") {
+                                //로그인 성공하여 홈 화면으로 이동
+                                window.location.href = "/";
+                            }
+                            break;
+                        }
+                    }
+
+                    if (value === null) {
+                        alert("잘못된 응답 데이터입니다.");
+                    }
                 } else {
-                    alert("로그인이 완료되었습니다. ");
+                    alert("잘못된 응답 형식입니다.");
                 }
             },
-            error : function(error) {
-                alert("error : " + error);
+            error: function(error) {
+                alert("error: " + error);
             }
+
         });
     }
 

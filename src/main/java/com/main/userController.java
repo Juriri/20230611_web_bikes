@@ -6,8 +6,12 @@ import com.user.service.userService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Objects;
 
 @Controller
 @AllArgsConstructor
@@ -43,18 +47,12 @@ public class userController {
     //로그인 확인
     @ResponseBody
     @PostMapping("/user/loginclick")
-    public boolean checkId(@RequestParam String user_id, @RequestParam String user_password, @RequestParam String check_password) {
-        if (!user_password.equals(check_password)) {
-            return false;
-        } else {
-            //id 비교
-            if(user_mapper.findById(user_id) > 0) {
-                //패스워드 비교
-            }
-            else {
-                return false;
-            }
-        }
-        return false;
+    public HashMap<Integer, String> checkId(@RequestParam String user_id, @RequestParam String user_password, @RequestParam String check_password) {
+        /*{0=로그인 성공입니다. }
+        {1=입력하신 두 패스워드가 일치하지 않습니다. }
+        {2=입력하신 id의 비밀번호가 아닙니다. }
+        {3=입력하신 id는 없는 id입니다. }*/
+        HashMap<Integer, String>map = new userService(user_mapper).passwordCmp(user_id, user_password, check_password);
+        return map;
     }
 }

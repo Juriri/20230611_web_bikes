@@ -30,23 +30,20 @@
                     </li>
                 </ul>
                 <!--4. 자전거 브랜드 검색 :: 브랜드 검색 시 [2].자전거 판매 목록 조회 결과 이동-->
-                <form class="d-flex" id="moveloginForm" autocomplete="off" action="/userLogin_try" method="post">
+                <form class="d-flex" id="brandSearchForm" autocomplete="off" action="/" method="post">
                     <input class="form-control me-2" type="text" id="keyword" placeholder="자전거 브랜드 입력" aria-label="자전거 브랜드 입력">
                     <button class="btn btn-outline-success" type="submit">검색</button>
                 </form>
-
-
-                <!-- <div class="login_signup">
-                  <button class="btn btn-outline-success login" type="submit">로그인</button>
-                </div> -->
-
                 <form id="loginForm"  autocomplete="off" action="/user/login" method="get">
                     <div class="login_signup">
                         <button class="btn btn-outline-success login" type="submit">로그인</button>
                     </div>
                 </form>
-
-
+<!--                <form id="loginForm" autocomplete="off" th:action="@{/user/login}" method="get" th:if="${not #request.isUserInRole('ROLE_USER')}">-->
+<!--                    <div class="login_signup">-->
+<!--                        <button class="btn btn-outline-success login" type="submit">로그인</button>-->
+<!--                    </div>-->
+<!--                </form>-->
             </div>
         </div>
     </nav>
