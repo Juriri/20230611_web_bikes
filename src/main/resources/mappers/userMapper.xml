@@ -2,10 +2,11 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
 <mapper namespace="com.main.Interface.userInterface">
-    <!-- 전체 select -->
-    <select id="list" resultType="com.user.member.userEntity">
+    <select id="findById" parameterType="String" resultType="int">
+        select count(user_id) from user where user_id = #{user_id}
+    </select>
+    <select id="userList" resultType="com.user.member.userDTO">
         select * from User;
     </select>
 

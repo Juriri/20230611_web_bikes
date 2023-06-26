@@ -1,7 +1,6 @@
 package com.main;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,8 +15,6 @@ import java.util.List;
 import java.util.ArrayList;
 
 @Controller
-//@ComponentScan(basePackages ={"com.main.Interface"})
-
 public class dagnController {
     @Autowired
     private dagnInterface dagn_mapper;

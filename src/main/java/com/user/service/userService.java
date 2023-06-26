@@ -1,22 +1,20 @@
 package com.user.service;
 
-import lombok.extern.java.Log;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Service;
+import com.main.Interface.userInterface;
 import com.user.member.userDTO;
-import org.springframework.web.servlet.ModelAndView;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 
-@Service
-@Log
+import java.util.List;
+@Data
+@NoArgsConstructor
 public class userService {
 
-    private userDTO userDTO;
-    private ModelAndView mv;
-
-    private BCryptPasswordEncoder pEncoder = new BCryptPasswordEncoder();
-
-
-
+    public userDTO passwordEnc(String id, String password, String name) {
+        String hashedPw = BCrypt.hashpw(password, BCrypt.gensalt());
+        return new userDTO(id, hashedPw, name);
+    }
 
 }

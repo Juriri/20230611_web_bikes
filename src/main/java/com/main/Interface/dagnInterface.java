@@ -2,9 +2,7 @@ package com.main.Interface;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-
 import com.dagn.member.dagnMember;
-
 import java.util.List;
 
 @Mapper
