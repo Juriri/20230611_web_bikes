@@ -51,6 +51,9 @@ dependencies {
     implementation group: 'org.springframework.security', name: 'spring-security-config', version: '6.0.1'
 
     compileOnly 'org.projectlombok:lombok'
+    //servlet
+    compileOnly group: 'jakarta.servlet', name: 'jakarta.servlet-api', version: '6.0.0'
+
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'com.h2database:h2'
     runtimeOnly 'com.microsoft.sqlserver:mssql-jdbc'

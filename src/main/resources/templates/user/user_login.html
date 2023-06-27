@@ -27,10 +27,10 @@
         <input type="text" id="user_id" name="user_id" class="login-input-box">
 
         <div class="login-id-label">비밀번호</div>
-        <input type="password" id="user_password" name="user_password" class="login-input-box">
+        <input type="password" id="pw" name="user_password" class="login-input-box">
 
         <div class="login-id-label">비밀번호 확인</div>
-        <input type="password" id="check_password" name="check_password" class="login-input-box">
+        <input type="password" id="re_pw" name="check_password" class="login-input-box">
 
         <button id="login-id-submit" onclick="btn_signin()" >로그인</button>
 
@@ -40,8 +40,8 @@
     function btn_signin() {
         var param = {
             "user_id" : $('#user_id').val(),
-            "user_password" : $('#user_password').val(),
-            "check_password" : $('#check_password').val()
+            "pw" : $('#pw').val(),
+            "re_pw" : $('#re_pw').val()
         };
         $.ajax({
             async: true,

@@ -35,16 +35,19 @@
                     <input class="form-control me-2" type="text" id="keyword" placeholder="자전거 브랜드 입력" aria-label="자전거 브랜드 입력">
                     <button class="btn btn-outline-success" type="submit">검색</button>
                 </form>
-                <form id="loginForm"  autocomplete="off" action="/user/login" method="get">
-                    <div class="login_signup">
-                        <button class="btn btn-outline-success login" type="submit">로그인</button>
-                    </div>
-                </form>
-<!--                <form id="loginForm" autocomplete="off" th:action="@{/user/login}" method="get" th:if="${not #request.isUserInRole('ROLE_USER')}">-->
-<!--                    <div class="login_signup">-->
-<!--                        <button class="btn btn-outline-success login" type="submit">로그인</button>-->
-<!--                    </div>-->
-<!--                </form>-->
+
+<!--                <div th:if="${session.loginMember == null}" class="top_menu">-->
+<!--                    <form id="loginForm"  autocomplete="off" action="/user/login" method="get">-->
+<!--                    <button class="btn btn-outline-success login" type="submit">로그인</button>-->
+<!--                    </form>-->
+<!--                </div>-->
+                <div th:if="${session.loginMember == null}" class="top_menu">
+                    <button class="btn btn-outline-success login" type="button" onclick="location.href='/user/login'">로그인</button>
+                </div>
+                <div th:if="${session.loginMember != null}" class="top_menu">
+                    <button class="btn btn-outline-success logout" type="button" onclick="location.href='/user/logout'">로그아웃</button>
+                    <button class="btn btn-outline-success myname" type="submit" th:text="${'로그인한 사용자: ' + session.loginMember.getUser_id()}"></button>
+                </div>
             </div>
         </div>
     </nav>

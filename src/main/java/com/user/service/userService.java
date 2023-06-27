@@ -22,11 +22,13 @@ public class userService {
         this.user_mapper = user_mapper;
     }
 
+    //회원가입에서 입력 받은 패스워드 암호화
     public userDTO passwordEnc(String id, String password, String name) {
         String hashedPw = BCrypt.hashpw(password, BCrypt.gensalt());
         return new userDTO(id, hashedPw, name);
     }
 
+    //로그인 시도 시 결과 값 출력 -> ajax 전송 후 window.alert 실행
     public HashMap<Integer,String> passwordCmp(String user_id, String origin_pw1, String origin_pw2){
         String msg = null;
         HashMap<Integer, String>map = new HashMap<>(); //key 0:로그인 성공, 1:두 개의 패스워드 불일치 2:id의 패스워드가 아님 3:유효하지않는 id

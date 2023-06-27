@@ -8,6 +8,7 @@ import java.util.List;
 public interface userInterface {
     //중복 id 찾기
     public int findById(String user_id);
+    public userDTO getObByID(String user_id);
     public String getpwByID(String user_id);
     //회원가입 요청
     public void userInsert(userDTO userDTO);
