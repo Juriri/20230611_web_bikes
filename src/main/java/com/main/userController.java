@@ -68,9 +68,9 @@ public class userController {
         //로그인 성공 시 회원 id 저장 및 세션 유지 시간 설정
         if(map.containsKey(0)) {
             HttpSession session = request.getSession();
-            //System.out.println("get obj->"+user_mapper.getObByID(user_id));
+
             session.setAttribute("loginMember",user_mapper.getObByID(user_id));
-            session.setMaxInactiveInterval(60 * 30);
+            session.setMaxInactiveInterval(600);
         }
         return map;
     }
