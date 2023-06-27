@@ -26,9 +26,12 @@ public class userController {
     }
     //로그아웃 실행 후 메인 페이지 이동
     @GetMapping("/user/logout")
-    public String logout(HttpSession session) {
+    public String logout(HttpServletRequest request) {
         //세션 정보 초기화
-        session.invalidate();
+        HttpSession session = request.getSession();
+        if(session.getAttribute("loginMember") != null){
+            request.removeAttribute("loginMember");
+        }
         return "main.html";
     }
 
