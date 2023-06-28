@@ -10,33 +10,31 @@
 <header th:replace="~{dagn/common/dagn_head :: dagn_head}"></header>
 <main>
     <section class="py-5 text-center container">
-        <!--        <div class="row py-lg-5">-->
-        <!--            <div class="col-lg-6 col-md-8 mx-auto">-->
-        <!--                <h1 class="fw-light">자전거 중고거래</h1>-->
-        <!--                <p class="lead text-body-secondary">자전거 중고거래 화면 출력중입니다. </p>-->
-        <!--            </div>-->
-        <!--        </div>-->
+        <div class="row py-lg-5">
+            <div class="col-lg-6 col-md-8 mx-auto">
+                <h1 class="fw-light">회원가입</h1>
+                <p class="lead text-body-secondary">회원 가입 창입니다. </p>
+            </div>
+        </div>
     </section>
 </main>
-<div id ="login-form">
-  <div id="login-title">Sign up</div>
-<!--  <form th:action="@{/user/save}" method="post">-->
-    <div class="login-id-label">Username</div>
-    <label>
-      <input type="text" id="user_id" name="user_id" placeholder="id" class="login-input-box">
-    </label>
+<div class="album py-5 bg-body-tertiary">
+    <div class="col-lg-6 col-md-8 mx-auto">
+        <div class="login-id-label">Username</div>
+        <label><input type="text" id="user_id" name="user_id" placeholder="id" class="login-input-box">
+        </label>
 
-    <div class="login-id-label">Password</div>
-    <label>
-      <input type="password" id="user_password" name="user_password" placeholder="password" class="login-input-box">
-    </label>
+        <div class="login-id-label">Password</div>
+        <label>
+        <input type="password" id="user_password" name="user_password" placeholder="password" class="login-input-box">
+        </label>
 
-    <div class="login-id-label">Name</div>
-    <label>
-      <input type="text" id="user_name" name="user_name" placeholder="name" class="login-input-box">
-      <input type="submit" id="login-id-submit" onclick="btn_signup()" value="가입하기">
-    </label>
-<!--  </form>-->
+        <div class="login-id-label">Name</div>
+        <label>
+        <input type="text" id="user_name" name="user_name" placeholder="name" class="login-input-box">
+        <input type="submit" id="login-id-submit" onclick="btn_signup()" value="가입하기">
+        </label>
+    </div>
 </div>
 <!-- Alert을 출력하기 위한 JavaScript 코드 -->
 <script type="text/javascript">

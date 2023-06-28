@@ -9,13 +9,16 @@
 <header th:replace="~{dagn/common/dagn_head :: dagn_head}"></header>
 <main>
     <section class="py-5 text-center container">
+        <div class="row py-lg-5">
+            <div class="col-lg-6 col-md-8 mx-auto">
+                <h1 class="fw-light">중고거래</h1>
+                <p class="lead text-body-secondary">중고거래 게시글 검색 결과입니다.</p>
+                <p class="lead text-body-secondary">새로운 제목으로 수정해보세요.</p>
+            </div>
+        </div>
     </section>
 </main>
-<div class="board_body">
-    <div class="board_title">
-        <h1>중고거래</h1>
-        <h3>중고거래 게시글 검색 내용입니다. </h3>
-    </div>
+<div class="album py-5 bg-body-tertiary">
     <form id="updateForm"  autocomplete="off" action="/dagnUpdate_Obj" method="post">
         <div class="out_id">
             <table>
@@ -68,5 +71,6 @@
         });
     }
 </script>
+<hr class="featurette-divider">
 </body>
 </html>

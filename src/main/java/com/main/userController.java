@@ -29,10 +29,12 @@ public class userController {
     public String logout(HttpServletRequest request) {
         //세션 정보 초기화
         HttpSession session = request.getSession();
+        System.out.println("logout 시도 들어욤"+session.getAttribute("loginMember"));
         if(session.getAttribute("loginMember") != null){
             request.removeAttribute("loginMember");
+            session.invalidate();  // 세션 무효화
         }
-        return "main.html";
+        return "/main.html";
     }
 
     // 회원 가입 페이지 이동

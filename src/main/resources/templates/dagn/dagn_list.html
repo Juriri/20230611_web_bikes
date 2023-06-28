@@ -23,9 +23,9 @@
 <div class="album py-5 bg-body-tertiary">
     <div class="container">
         <div class="bt_wrap">
-            <a href="/dagnRegister" class="on">게시글 작성하기</a>
+            <a href="/dagnRegister" class="w-10 btn btn-primary btn-lg">게시글 작성하기</a>
         </div>
-
+        <br>
         <form id="searchForm" autocomplete="off" action="/search" method="post">
             <div class="sch_group fl">
                 <select id="searchType" name="searchType" title="검색 유형 선택">
@@ -36,7 +36,7 @@
                 <button type="submit">전송</button>
             </div>
         </form>
-
+        <br>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
             <div th:each="dao, iterStat:${list}" class="col">
                 <div class="card shadow-sm">
@@ -44,38 +44,36 @@
                     <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
                     <div class="card-body">
                         <table class="row mb-4 text-center">
-                            <tbody id="tb1">
-                            <tr>
-                                <td>
-                                    <p class="card-text">
+                            <ul class="list-unstyled mt-3 mb-4">
+                                    <li><p class="card-text">
                                         작성자 ID:
                                         <span th:id="Dagn_user_id"
                                               th:text="${dao.getId()}"></span>
-                                    </p>
-                                    <p class="card-text">
+                                    </p></li>
+
+                                    <li><p class="card-text">
                                         제목:
                                         <a th:href="@{/dagnContents/{title}(title=${dao.getTitle()})}"
                                            th:text="${dao.getTitle()}"></a>
+                                    </p></li>
 
-                                    </p>
-                                    <p class="card-text">
+                                    <li><p class="card-text">
                                         작성일:
                                         <span th:id="create_date"
                                               th:text="${dao.getCreate_date()}"></span>
-                                    </p>
+                                    </p></li>
 
-                                    <p class="card-text">
+                                    <li><p class="card-text">
                                         생성일:
                                         <span th:id="modified_date"
                                               th:text="${dao.getModified_date()}"></span>
-                                    </p>
+                                    </p></li>
+                                    <br>
                                     <div class="btn-group">
                                         <button type="button" class="btn btn-sm btn-outline-secondary" th:onclick="'window.location.href= \''+@{/dagnContents/{title}(title=${dao.getTitle()})} + '\''">수정</button>
                                         <button type="button" class="btn btn-sm btn-outline-secondary" th:onclick="'window.location.href= \''+@{/dagnDelete/{title}(title=${dao.getTitle()})} + '\''">삭제</button>
                                     </div>
-                                </td>
-                            </tr>
-                            </tbody>
+                            </ul>
                         </table>
                     </div>
                 </div>
