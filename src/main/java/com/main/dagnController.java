@@ -1,24 +1,26 @@
 package com.main;
 
+import com.user.service.userService;
+import lombok.AllArgsConstructor;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import com.dagn.member.dagnMember;
 import com.dagn.service.dagnService;
 import com.main.Interface.dagnInterface;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.ArrayList;
 
 @Controller
+@AllArgsConstructor
 public class dagnController {
     @Autowired
     private dagnInterface dagn_mapper;
-    private dagnMember old_dto = null;
 
     //전체 select 조회 메서드
     @RequestMapping(value={"/dagnList"})
@@ -49,11 +51,11 @@ public class dagnController {
     //게시글 insert 메서드
     @RequestMapping(value={"/dagnInsert"})
     public String dagnInsert(@RequestParam String id, @RequestParam String title, Model model) {
-
-        List<dagnMember> list = (ArrayList) dagn_mapper.list();
+        List<dagnMember> list = dagn_mapper.list();
         // dagnInsert
-        dagnMember dto = new dagnMember(list.size()+1, id, title);
-        dagn_mapper.dagnInsert(dto);
+        dagnMember member = new dagnMember(id, title);
+        //mapper에 설정한 insert 실행
+        dagn_mapper.dagnInsert(member);
 
         dagnlist_page(model);
         return "dagn/dagn_list";
@@ -68,43 +70,38 @@ public class dagnController {
         dagnMember result_dagn = null;
 
         List<dagnMember> select_dagn = (ArrayList) dagn_mapper.list();
+        //title을 가진 dagnmember 객체 반환
         result_dagn = service.find(title, select_dagn);
-        old_dto = service.find(title, select_dagn);
 
         model.addAttribute("dto",result_dagn);
 
         return "dagn/dagn_title_search";
     }
 
-    //게시글 update 이동
-    @RequestMapping(value={"/dagnUpdate"})
-    public String Update_page(Model model) {
-        dagnService service = new dagnService();
-        dagnMember result_dagn = null;
-
-        List<dagnMember> select_dagn = (ArrayList) dagn_mapper.list();
-        result_dagn = service.find(old_dto.getTitle(), select_dagn);
-
-        model.addAttribute("dto",result_dagn);
-        return "dagn/dagn_update";
-    }
 
     //게시글 제목 열 update 실행
-    @RequestMapping(value={"/dagnUpdate_Obj"})
-    public String dagnUpdate(@RequestParam String Dagn_title, Model model) {
+    @PostMapping("/dagnUpdate_Obj")
+    public String dagnUpdate_page(@RequestParam String old_title, @RequestParam String new_title, @RequestParam String user_id, Model model) {
 
-        dagn_mapper.dagnUpdate(old_dto.getNum(), Dagn_title);
+        dagnService service = new dagnService();
+        List<dagnMember> dagn_list = dagn_mapper.list();
 
+        if(service.update(user_id, old_title, new_title, dagn_list)) {
+            dagn_mapper.dagnUpdate(new_title, user_id);
+        }
         dagnlist_page(model);
         return "dagn/dagn_list";
     }
 
 
     //게시글 delete
-    @RequestMapping(value={"/dagnDelete"})
-    public String dagnDelete(Model model) {
-        dagn_mapper.dagnDelete(old_dto.getNum(), old_dto.getTitle());
-
+    @RequestMapping(value={"/dagnDelete/{title}"})
+    public String dagnDelete(@PathVariable("title") String title, Model model) {
+        dagnService service = new dagnService();
+        //title을 가진 dagnmember 객체 반환
+        dagnMember result_dagn = service.find(title, dagn_mapper.list());
+        //mapper에 설정한 dagnDelete 실행
+        dagn_mapper.dagnDelete(title, result_dagn.getDagn_user_id());
         dagnlist_page(model);
         return "dagn/dagn_list";
     }

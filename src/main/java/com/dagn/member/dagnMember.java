@@ -7,14 +7,11 @@ import java.sql.Timestamp;
 @NoArgsConstructor //매개변수 없는 기본 생성자
 //@AllArgsConstructor //매개변수 있는 생성자로 만들어줌
 public class dagnMember {
-    private int num;
     private String Dagn_user_id, Dagn_title;
     private Timestamp Dagn_create_date, Dagn_modified_date;
     private Long datetime = System.currentTimeMillis();
 
-    public dagnMember(int num, String Dagn_id, String Dagn_title) {
-        super();
-        this.num = num;
+    public dagnMember(String Dagn_id, String Dagn_title) {
         this.Dagn_user_id = Dagn_id;
         this.Dagn_title = Dagn_title;
         Dagn_create_date = new Timestamp(datetime);

@@ -3,37 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="/css/product.css" rel="stylesheet">
     <title>중고거래 게시글 등록창</title>
 </head>
 <body>
 <header th:replace="~{dagn/common/dagn_head :: dagn_head}"></header>
+<main>
+    <section class="py-5 text-center container">
+    </section>
+</main>
 <div class="board_body">
     <div class="board_title">
         <h1>중고거래</h1>
         <h3>중고거래 게시글 검색 내용입니다. </h3>
     </div>
-
-    <form id="Form"  autocomplete="off" action="/dagnUpdate" method="post">
-        <input type="submit" value="수정">
+    <form id="updateForm"  autocomplete="off" action="/dagnUpdate_Obj" method="post">
+        <div class="out_id">
+            <table>
+                <tr>
+                    <td>작성자</td>
+                    <td th:text="${dto.getId()}"></td>
+                    <input type="hidden" name="user_id" th:value="${dto.getId()}">
+                </tr>
+            </table>
+        </div>
+        <div class="out_title">
+            <table>
+                <tr>
+                    <td>제목</td>
+                    <td th:text="${dto.getTitle()}"></td>
+                    <input type="hidden" name="old_title" th:value="${dto.getTitle()}">
+                </tr>
+            </table>
+        </div>
+        <!--제목수정-->
+        <div class="update_group fl">
+            <input type="text" name="new_title" placeholder="제목 수정: "/>
+            <button onclick="sendNewTitle()">전송</button>
+        </div>
     </form>
-    <form id="deleteForm"  autocomplete="off" action="/dagnDelete" method="post">
-        <input type="submit" value="삭제">
-    </form>
-    <div class="out_num">
-        <td>게시글번호</td>
-        <td th:text="${dto.getNum()}">
-    </div>
-    <div class="out_id">
-        <td>작성자</td>
-        <td th:text="${dto.getId()}">
-    </div>
-
-    <div class="out_title">
-        <td>제목</td>
-        <td th:text="${dto.getTitle()}">
-    </div>
-
     <div class="out_cdates">
         <td>게시글 생성날짜</td>
         <td th:text="${dto.getCreate_date()}">
@@ -44,5 +51,22 @@
         <td th:text="${dto.getModified_date()}">
     </div>
 </div>
+<script type="text/javascript">
+    function sendNewTitle() {
+        var param = {
+            "user_id" : $('#user_id').val(),
+            "old_title" : $('#old_title').val(),
+            "new_title" : $('#new_title').val()
+        };
+        $.ajax({
+            async: true,
+            type : 'POST',
+            data: param,
+            cache: false,
+            url : "/dagnUpdate_Obj",
+            dataType : "json"
+        });
+    }
+</script>
 </body>
 </html>

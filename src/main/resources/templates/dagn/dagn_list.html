@@ -9,91 +9,90 @@
 </head>
 <body>
 <header th:replace="~{dagn/common/dagn_head :: dagn_head}"></header>
-<div class="board_title">
-    <h1>중고거래</h1>
-    <h3>현재 게시된 중고거래 내용입니다.</h3>
-</div>
-<div class="input_text" >
-    <div class="bt_wrap">
-        <a href="/dagnRegister" class="on">게시글 작성하기</a>
-    </div>
-    <form id="searchForm"  autocomplete="off" action="/search" method="post">
-        <div class="sch_group fl">
-            <select id="searchType" name="searchType" title="검색 유형 선택">
-                <!-- <option value="whole">전체 검색</option> -->
-                <option value="Dagn_title">제목</option>
-                <option value="num">게시글 No.</option>
-                <option value="Dagn_user_id">작성자</option>
-            </select>
-            <input type="text" id="keyword" name="keyword" placeholder="키워드를 입력해 주세요." title="키워드 입력" />
-            <input type="submit" value="전송">
-            <!-- <button type="button" class="bt_search" onclick="movePage()"><i class="fas fa-search"></i><span class="skip_info">검색</span></button> -->
+<main>
+    <section class="py-5 text-center container">
+        <div class="row py-lg-5">
+            <div class="col-lg-6 col-md-8 mx-auto">
+                <h1 class="fw-light">중고거래</h1>
+                <p class="lead text-body-secondary">현재 게시된 중고거래 내용입니다.</p>
+            </div>
         </div>
-    </form>
-</div>
-<div class="board_list">
-    <thead>
-    <tr>
-        <th>번호</th>
-        <th>제목</th>
-        <th>작성자</th>
-        <th>작성일</th>
-        <th>수정일</th>
-    </tr>
-    </thead>
-    <table class="row mb-4 text-center">
-        <tbody id="tb1">
-        <tr th:each="dao:${list}">
-            <td th:text="${dao.getNum()}"></td>
-            <td><a th:href="@{/dagnContents/{title}(title=${dao.getTitle()})}"
-                   th:text="${dao.getTitle()}"/>
-            </td>
-            <td th:text="${dao.getId()}"></td>
-            <td th:text="${dao.getCreate_date()}"></td>
-            <td th:text="${dao.getModified_date()}"></td>
-        </tr>
-        </tbody>
-    </table>
-    <div class="bottom">
-        <a href="#" class="bt first"> << </a>
-        <a href="#" class="bt before"> < </a>
-        <a href="#" class="bt num"> 1 </a>
-        <a href="#" class="bt num"> 2 </a>
-        <a href="#" class="bt num"> 3 </a>
-        <a href="#" class="bt num"> 4 </a>
-        <a href="#" class="bt num"> 5 </a>
-        <a href="#" class="bt after"> > </a>
-        <a href="#" class="bt last"> >> </a>
+    </section>
+</main>
+
+<div class="album py-5 bg-body-tertiary">
+    <div class="container">
+        <div class="bt_wrap">
+            <a href="/dagnRegister" class="on">게시글 작성하기</a>
+        </div>
+
+        <form id="searchForm" autocomplete="off" action="/search" method="post">
+            <div class="sch_group fl">
+                <select id="searchType" name="searchType" title="검색 유형 선택">
+                    <option value="Dagn_title">제목</option>
+                    <option value="Dagn_user_id">작성자</option>
+                </select>
+                <input type="text" id="keyword" name="keyword" placeholder="키워드를 입력해 주세요." title="키워드 입력" />
+                <button type="submit">전송</button>
+            </div>
+        </form>
+
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            <div th:each="dao, iterStat:${list}" class="col">
+                <div class="card shadow-sm">
+                    <!--이미지 삽입-->
+                    <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+                    <div class="card-body">
+                        <table class="row mb-4 text-center">
+                            <tbody id="tb1">
+                            <tr>
+                                <td>
+                                    <p class="card-text">
+                                        작성자 ID:
+                                        <span th:id="Dagn_user_id"
+                                              th:text="${dao.getId()}"></span>
+                                    </p>
+                                    <p class="card-text">
+                                        제목:
+                                        <a th:href="@{/dagnContents/{title}(title=${dao.getTitle()})}"
+                                           th:text="${dao.getTitle()}"></a>
+
+                                    </p>
+                                    <p class="card-text">
+                                        작성일:
+                                        <span th:id="create_date"
+                                              th:text="${dao.getCreate_date()}"></span>
+                                    </p>
+
+                                    <p class="card-text">
+                                        생성일:
+                                        <span th:id="modified_date"
+                                              th:text="${dao.getModified_date()}"></span>
+                                    </p>
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-sm btn-outline-secondary" th:onclick="'window.location.href= \''+@{/dagnContents/{title}(title=${dao.getTitle()})} + '\''">수정</button>
+                                        <button type="button" class="btn btn-sm btn-outline-secondary" th:onclick="'window.location.href= \''+@{/dagnDelete/{title}(title=${dao.getTitle()})} + '\''">삭제</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-
-<!-- <script type="text/javascript">
-    function movePage() {
-        var param = {
-            "searchType" : $('#searchType').val(),
-            "keyword" : $('#keyword').val()
-        };
-
-        $.ajax({
-            url:'/search',
-            type: 'post',
-            data: param,
-            async: 'false',
-            cache: false,
-            //dataType: 'json',
-            success: function(data) {
-                console.log(data);
-                console.log("sucess");
-
-                $('#tb1').replaceAll(data);
-                //window.location.href = "/dagnList";
-                //  $('#tb1')..append(`<p>test</p>`);
-            },
-            error: function(data) {
-                console.log("error");
-            }
-         });
-}
-</script> -->
+<div class="bottom">
+    <a href="#" class="bt first"> << </a>
+    <a href="#" class="bt before"> < </a>
+    <a href="#" class="bt num"> 1 </a>
+    <a href="#" class="bt num"> 2 </a>
+    <a href="#" class="bt num"> 3 </a>
+    <a href="#" class="bt num"> 4 </a>
+    <a href="#" class="bt num"> 5 </a>
+    <a href="#" class="bt after"> > </a>
+    <a href="#" class="bt last"> >> </a>
+</div>
 </body>
 </html>
