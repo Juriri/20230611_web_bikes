@@ -27,13 +27,8 @@ public class userController {
     //로그아웃 실행 후 메인 페이지 이동
     @GetMapping("/user/logout")
     public String logout(HttpServletRequest request) {
-        //세션 정보 초기화
-        HttpSession session = request.getSession();
-        System.out.println("logout 시도 들어욤"+session.getAttribute("loginMember"));
-        if(session.getAttribute("loginMember") != null){
-            request.removeAttribute("loginMember");
-            session.invalidate();  // 세션 무효화
-        }
+        //세션 정보 초기화 메소드 호출
+        userService.sessionRemove(request);
         return "/main.html";
     }
 
@@ -48,11 +43,8 @@ public class userController {
     @ResponseBody
     @PostMapping("/user/save")
     public int requestSignup(@RequestParam String user_id, @RequestParam String user_password, @RequestParam String user_name) {
-        int count = user_mapper.findById(user_id);
-        //같은 id 없으면 user 가입 요청
-        if (count == 0) {
-            user_mapper.userInsert(new userService().passwordEnc(user_id, user_password, user_name));
-        }
+        userService service = new userService(user_mapper);
+        int count = service.Signup(user_id, user_password, user_name);
         return count;
     }
 
@@ -66,14 +58,8 @@ public class userController {
         {3=입력하신 id는 없는 id입니다. }*/
 
         //회원 정보 조회
-        HashMap<Integer, String>map = new userService(user_mapper).passwordCmp(user_id, pw, re_pw);
-        //로그인 성공 시 회원 id 저장 및 세션 유지 시간 설정
-        if(map.containsKey(0)) {
-            HttpSession session = request.getSession();
+        HashMap<Integer, String>map = new userService(user_mapper).Signin(request, user_id, pw, re_pw);
 
-            session.setAttribute("loginMember",user_mapper.getObByID(user_id));
-            session.setMaxInactiveInterval(600);
-        }
         return map;
     }
 }

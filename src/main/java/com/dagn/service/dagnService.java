@@ -1,31 +1,73 @@
 package com.dagn.service;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import com.dagn.member.dagnMember;
 //파일 처리
+import com.main.Interface.dagnInterface;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import org.apache.commons.io.FilenameUtils;
-import org.springframework.util.FileCopyUtils;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.util.StringUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.UUID;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 
 @Data
 @NoArgsConstructor
+@Service
 public class dagnService {
-    //title 클릭 후 해당 객체 select
+    private dagnInterface dagn_mapper;
+
+    @Autowired
+    public dagnService(dagnInterface dagn_mapper) {
+        this.dagn_mapper = dagn_mapper;
+    }
+
+    private FileUploadProperties fileupload;
+
+    @Autowired
+    public dagnService(FileUploadProperties fileupload) {
+        this.fileupload = fileupload;
+    }
+    public dagnService(dagnInterface dagn_mapper, FileUploadProperties fileupload) {
+        this.fileupload = fileupload;
+        this.dagn_mapper = dagn_mapper;
+    }
+    //이미지 저장 및 처리
+    private static String generateUniqueFileName(MultipartFile imageFile) {
+        // 고유한 파일 이름을 생성하는 로직을 구현하세요.
+        // 예: 현재 시간을 기반으로 파일 이름 생성
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+        return dateFormat.format(new Date())+"_"+imageFile.getOriginalFilename();
+    }
+
+    //게시글에 등록한 정보 (제목, 작성자, 이미지파일) 입력 후 insert 처리
+    public void Insert(dagnMember member) throws IOException {
+        String id = member.getId();
+        String title = member.getTitle();
+
+        if (member.getImageFile() != null && !member.getImageFile().isEmpty()) {
+            String uploadPath = fileupload.getLocation();
+            System.out.println("uploadpath: "+uploadPath);
+
+            String fileName = member.getImageFile().getOriginalFilename();
+            System.out.println("orgien: "+fileName);
+            File destFile = new File(uploadPath+fileName);
+            MultipartFile imageFile = member.getImageFile();
+            imageFile.transferTo(destFile);
+            System.out.println("Absolpath: "+destFile.getAbsolutePath());
+            member.setImageFile(imageFile);
+        }
+        dagn_mapper.dagnInsert(member);
+    }
+
+    //title 클릭 후 해당 객체 select 화면 처리
     public dagnMember find(String title, List<dagnMember> list) {
         dagnMember dagn_found = null;
         for(dagnMember dto: list){
@@ -41,7 +83,7 @@ public class dagnService {
         return dagn_found;
     }
 
-    //제목이 게시판에 있으면 update 실행
+    //수정할 제목 입력 후 해당 제목으로 update 처리
     public boolean update(String user_id, String old_title, String new_title, List<dagnMember> list) {
 
         for(dagnMember member: list){
@@ -53,27 +95,6 @@ public class dagnService {
         return false;
     }
 
-    //이미지 저장 및 처리
-    public void saveImage(MultipartFile imageFile) throws IOException {
-//        if (imageFile != null && !imageFile.isEmpty()) {
-//            FileUploadProperties upload = null;
-//
-//            String fileName = StringUtils.cleanPath(imageFile.getOriginalFilename());
-//            String extension = FilenameUtils.getExtension(fileName);
-//            String generatedFileName = generateUniqueFileName() + "." + extension;
-//
-//            try (InputStream inputStream = imageFile.getInputStream();
-//                 OutputStream outputStream = new FileOutputStream(uploadDirectory + File.separator + generatedFileName)) {
-//                FileCopyUtils.copy(inputStream, outputStream);
-//            }
-//        }
-    }
 
-    private static String generateUniqueFileName() {
-        // 고유한 파일 이름을 생성하는 로직을 구현하세요.
-        // 예: 현재 시간을 기반으로 파일 이름 생성
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmssSSS");
-        return dateFormat.format(new Date());
-    }
 
 }

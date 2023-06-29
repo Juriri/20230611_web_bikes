@@ -1,5 +1,6 @@
 package com.main;
 
+import com.dagn.service.FileUploadProperties;
 import com.user.service.userService;
 import lombok.AllArgsConstructor;
 import org.apache.ibatis.annotations.Param;
@@ -30,8 +31,8 @@ public class dagnController {
     @RequestMapping(value={"/dagnList"})
     public String dagnlist_page(Model model) {
         List<dagnMember> list = (ArrayList) dagn_mapper.list();
-
         model.addAttribute("list",list);
+
         return "dagn/dagn_list";
     }
 
@@ -40,9 +41,9 @@ public class dagnController {
     public String dagnSearch(@RequestParam String searchType, @RequestParam String keyword, Model model) {
 
         List<dagnMember> answer = null;
-
-        answer = (ArrayList) dagn_mapper.dagnSelect(searchType, keyword);
+        answer = dagn_mapper.dagnSelect(searchType, keyword);
         model.addAttribute("list",answer);
+
         return "dagn/dagn_list";
     }
 
@@ -55,20 +56,18 @@ public class dagnController {
     //게시글 insert 메서드
     @RequestMapping(value={"/dagnInsert"})
     public String dagnInsert(@RequestParam String id, @RequestParam String title,@RequestParam MultipartFile imageFile, Model model) throws IOException {
-
+        FileUploadProperties fileupload = new FileUploadProperties();
+        dagnService service = new dagnService(dagn_mapper,fileupload);
         dagnMember member = null;
-        List<dagnMember> list = dagn_mapper.list();
-        long datetime = System.currentTimeMillis();
 
         if (imageFile != null && !imageFile.isEmpty()) {
             System.out.println("이미지 불러오기 성공, ");
             member = new dagnMember(id, title, imageFile);
         } else {
+            System.out.println("이미지 null , ");
             member = new dagnMember(id, title);
         }
-
-        //mapper에 설정한 insert 실행
-        dagn_mapper.dagnInsert(member);
+        service.Insert(member);
         dagnlist_page(model);
         return "dagn/dagn_list";
     }
