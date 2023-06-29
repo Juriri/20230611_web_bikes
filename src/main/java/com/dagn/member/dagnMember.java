@@ -1,6 +1,7 @@
 package com.dagn.member;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Timestamp;
 @Data
@@ -10,12 +11,23 @@ public class dagnMember {
     private String Dagn_user_id, Dagn_title;
     private Timestamp Dagn_create_date, Dagn_modified_date;
     private Long datetime = System.currentTimeMillis();
+    private MultipartFile imageFile;
+
 
     public dagnMember(String Dagn_id, String Dagn_title) {
         this.Dagn_user_id = Dagn_id;
         this.Dagn_title = Dagn_title;
         Dagn_create_date = new Timestamp(datetime);
         Dagn_modified_date = new Timestamp(datetime);
+        imageFile = null;
+    }
+
+    public dagnMember(String Dagn_id, String Dagn_title, MultipartFile imageFile) {
+        this.Dagn_user_id = Dagn_id;
+        this.Dagn_title = Dagn_title;
+        Dagn_create_date = new Timestamp(datetime);
+        Dagn_modified_date = new Timestamp(datetime);
+        this.imageFile = imageFile;
     }
 
     public String getId() {
@@ -33,6 +45,7 @@ public class dagnMember {
     public Timestamp getModified_date() {
         return Dagn_modified_date;
     }
+
     public void setId(String Dagn_id) {
         this.Dagn_user_id = Dagn_id;
     }

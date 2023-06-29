@@ -9,9 +9,12 @@
         <div class="container-fluid">
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
                     <!--1. 중고 자전거 거래 :: 누르면 중고거래창 이동-->
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/dagnList">중고 자전거 매물</a>
+                        <a class="nav-link" aria-current="page" href="/dagnList">중고 자전거 매물</a>
                     </li>
 
                     <!--2. 새 자전거 판매 목록 :: 누르면 자전거 판매창 이동-->
@@ -37,10 +40,11 @@
                     <button class="btn btn-sm btn-outline-secondary" type="submit">Search</button>
 
                     <button class="btn btn-sm btn-outline-secondary" type="button" th:if="${session.loginMember == null}" onclick="location.href='/user/login'">Login</button>
-                    <p th:text="${session.loginMember != null ? '   반가워요! ' + session.loginMember.getUser_id() : ''}" class="text-center" style="color: white;"></p>
-                    <button class="btn btn-sm btn-outline-secondary" type="button" th:if="${session.loginMember != null}" onclick="location.href='/user/logout'">Logout</button>
+                    <button class="btn btn-sm btn-outline-secondary" type="button" th:if="${session.loginMember != null}" onclick="location.href='/user/logout'">
+                        <span th:text="${session.loginMember != null ? 'Hi! ' + session.loginMember.getUser_id() : ''}"></span>
+                        Logout
+                    </button>
                 </form>
-
             </div>
         </div>
     </nav>

@@ -20,7 +20,8 @@
 </main>
 <div class="album py-5 bg-body-tertiary">
   <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-    <form id="registerForm"  autocomplete="off" action="/dagnInsert" method="post">
+
+    <form id="registerForm"  autocomplete="off" action="/dagnInsert" method="post" enctype="multipart/form-data">
       <div class="col-md-7 col-lg-8">
       <div class="row g-3">
         <div class="col-12">
@@ -31,10 +32,18 @@
           <label for="id" class="form-label">게시글 제목</label>
           <input type="text" class="form-control" id="title" name="title" placeholder="제목 입력: "/>
         </div>
+
+        <!--이미지 업로드 ui-->
+        <div class="col-12">
+          <label for="imageFile" class="form-label"><strong>이미지 파일</strong></label>
+          <input name="imageFile" type="file" class="custom-file-input" id="imageFile" />
+        </div>
+
         <input type="submit" class="w-100 btn btn-primary btn-lg" value="전송">
       </div>
       </div>
     </form>
+
   </div>
 </div>
 <hr class="featurette-divider">

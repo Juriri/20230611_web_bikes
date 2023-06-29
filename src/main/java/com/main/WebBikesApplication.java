@@ -1,10 +1,13 @@
 package com.main;
 
+import com.dagn.service.FileUploadProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
 //exclude 추가
+@EnableConfigurationProperties({FileUploadProperties.class})
 @SpringBootApplication(exclude = SecurityAutoConfiguration.class) //security 기본 메인화면 예외처리
 public class WebBikesApplication {
 

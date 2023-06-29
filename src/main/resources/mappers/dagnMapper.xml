@@ -17,10 +17,21 @@
     </select>
 
     <!-- dagnInsert -->
+<!--    <insert id="dagnInsert" parameterType="com.dagn.member.dagnMember">-->
+<!--        insert into Dagn values(#{Dagn_user_id}, #{Dagn_title}, #{Dagn_create_date}, #{Dagn_modified_date})-->
+<!--    </insert>-->
     <insert id="dagnInsert" parameterType="com.dagn.member.dagnMember">
-        insert into Dagn values(#{Dagn_user_id}, #{Dagn_title}, #{Dagn_create_date}, #{Dagn_modified_date})
+        <choose>
+            <when test="imageFile != null">
+                insert into Dagn (Dagn_user_id, Dagn_title, Dagn_create_date, Dagn_modified_date, imageFile)
+                values (#{Dagn_user_id}, #{Dagn_title}, #{Dagn_create_date}, #{Dagn_modified_date}, #{imageFile})
+            </when>
+            <otherwise>
+                insert into Dagn (Dagn_user_id, Dagn_title, Dagn_create_date, Dagn_modified_date, imageFile)
+                values (#{Dagn_user_id}, #{Dagn_title}, #{Dagn_create_date}, #{Dagn_modified_date}, null)
+            </otherwise>
+        </choose>
     </insert>
-
     <!-- dagnUpdate -->
     <update id="dagnUpdate" parameterType="java.util.Map">
         update Dagn set Dagn_title=#{new_title} where Dagn_user_id=#{user_id}

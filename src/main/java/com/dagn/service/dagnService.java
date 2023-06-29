@@ -1,13 +1,26 @@
 package com.dagn.service;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import com.dagn.member.dagnMember;
+//파일 처리
+import org.springframework.web.multipart.MultipartFile;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import org.apache.commons.io.FilenameUtils;
+import org.springframework.util.FileCopyUtils;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.util.StringUtils;
 
-import com.main.Interface.dagnInterface;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+
 
 @Data
 @NoArgsConstructor
@@ -38,6 +51,29 @@ public class dagnService {
             }
         }
         return false;
+    }
+
+    //이미지 저장 및 처리
+    public void saveImage(MultipartFile imageFile) throws IOException {
+//        if (imageFile != null && !imageFile.isEmpty()) {
+//            FileUploadProperties upload = null;
+//
+//            String fileName = StringUtils.cleanPath(imageFile.getOriginalFilename());
+//            String extension = FilenameUtils.getExtension(fileName);
+//            String generatedFileName = generateUniqueFileName() + "." + extension;
+//
+//            try (InputStream inputStream = imageFile.getInputStream();
+//                 OutputStream outputStream = new FileOutputStream(uploadDirectory + File.separator + generatedFileName)) {
+//                FileCopyUtils.copy(inputStream, outputStream);
+//            }
+//        }
+    }
+
+    private static String generateUniqueFileName() {
+        // 고유한 파일 이름을 생성하는 로직을 구현하세요.
+        // 예: 현재 시간을 기반으로 파일 이름 생성
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+        return dateFormat.format(new Date());
     }
 
 }
