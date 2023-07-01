@@ -36,10 +36,10 @@
     <update id="dagnUpdate" parameterType="java.util.Map">
         update Dagn set Dagn_title=#{new_title} where Dagn_user_id=#{user_id}
     </update>
-    <!-- <update id="dagnRerange">
+    <update id="dagnRerange">
         UPDATE Dagn, (SELECT @num := 0) AS num_init
         SET num = (@num := @num + 1);
-    </update> -->
+    </update>
 
     <!-- dagnDelete -->
     <delete id="dagnDelete" parameterType="java.util.Map">

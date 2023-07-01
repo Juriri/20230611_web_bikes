@@ -3,30 +3,37 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 @Data
 @NoArgsConstructor //매개변수 없는 기본 생성자
 //@AllArgsConstructor //매개변수 있는 생성자로 만들어줌
 public class dagnMember {
     private String Dagn_user_id, Dagn_title;
-    private Timestamp Dagn_create_date, Dagn_modified_date;
-    private Long datetime = System.currentTimeMillis();
+    private String Dagn_create_date, Dagn_modified_date; //게시판 출력 타입
     private MultipartFile imageFile;
 
 
     public dagnMember(String Dagn_id, String Dagn_title) {
         this.Dagn_user_id = Dagn_id;
         this.Dagn_title = Dagn_title;
-        Dagn_create_date = new Timestamp(datetime);
-        Dagn_modified_date = new Timestamp(datetime);
+
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Dagn_create_date = df.format(new Date());
+        Dagn_modified_date = df.format(new Date());
+
         imageFile = null;
     }
 
     public dagnMember(String Dagn_id, String Dagn_title, MultipartFile imageFile) {
         this.Dagn_user_id = Dagn_id;
         this.Dagn_title = Dagn_title;
-        Dagn_create_date = new Timestamp(datetime);
-        Dagn_modified_date = new Timestamp(datetime);
+
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Dagn_create_date = df.format(new Date());
+        Dagn_modified_date = df.format(new Date());
+
         this.imageFile = imageFile;
     }
 
@@ -38,14 +45,12 @@ public class dagnMember {
         return Dagn_title;
     }
 
-    public Timestamp getCreate_date() {
+    public String getCreate_date() {
         return Dagn_create_date;
     }
-
-    public Timestamp getModified_date() {
+    public String getModified_date() {
         return Dagn_modified_date;
     }
-
     public void setId(String Dagn_id) {
         this.Dagn_user_id = Dagn_id;
     }
@@ -53,11 +58,11 @@ public class dagnMember {
         this.Dagn_title = Dagn_title;
     }
 
-    public void setCreate_date(Timestamp Dagn_create_date) {
+    public void setCreate_date(String Dagn_create_date) {
         this.Dagn_create_date = Dagn_create_date;
     }
 
-    public void setModified_date(Timestamp Dagn_modified_date) {
+    public void setModified_date(String Dagn_modified_date) {
         this.Dagn_modified_date =  Dagn_modified_date;
     }
 }

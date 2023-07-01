@@ -15,8 +15,8 @@ public interface dagnInterface {
     public void dagnInsert(dagnMember dto);
     //update
     public void dagnUpdate(@Param("new_title") String new_title, @Param("user_id") String user_id);
+    public void dagnRerange();
 
-    //public void dagnRerange();
     //delete
     public void dagnDelete(@Param("title") String title, @Param("user_id") String user_id);
 }
