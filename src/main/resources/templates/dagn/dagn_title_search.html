@@ -38,11 +38,20 @@
                 </tr>
             </table>
         </div>
-        <!--제목수정-->
         <div class="update_group fl">
             <input type="text" name="new_title" placeholder="제목 수정: "/>
             <button onclick="sendNewTitle()">전송</button>
         </div>
+        <div class="out_image">
+            <table>
+                <tr>
+                    <img class="bd-placeholder-img card-img-top" th:if="${dto.getImageName()}" th:src="@{'https://storage.googleapis.com/bikes_web/' + ${dto.getImageName()}}" alt=width="1%" height="225">
+                    <img class="bd-placeholder-img card-img-top" th:unless="${dto.getImageName()}" th:src="@{'https://storage.googleapis.com/bikes_web/no_image.png'}" alt=width="10%" height="225">
+                </tr>
+            </table>
+        </div>
+        <!--제목수정-->
+
     </form>
     <div class="out_cdates">
         <td>게시글 생성날짜</td>

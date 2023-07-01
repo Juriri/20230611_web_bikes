@@ -1,27 +1,18 @@
 package com.main;
-
-import com.dagn.service.FileUploadProperties;
-import com.user.service.userService;
 import com.dagn.service.dagnService;
 import lombok.AllArgsConstructor;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import com.dagn.member.dagnMember;
-import com.dagn.service.dagnService;
 import com.main.Interface.dagnInterface;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.awt.*;
-import java.io.IOException;
-import java.sql.Timestamp;
 import java.util.List;
-import java.util.ArrayList;
-import java.io.File;
+
 @Controller
 @AllArgsConstructor
 public class dagnController {
@@ -59,22 +50,23 @@ public class dagnController {
 
     //게시글 insert 메서드
     @RequestMapping(value={"/dagnInsert"})
-    public String dagnInsert(@RequestParam String id, @RequestParam String title,@RequestParam MultipartFile imageFile, Model model) throws IOException {
-        dagnMember member = null;
-
+    public String dagnInsert(@RequestParam String id, @RequestParam String title,@RequestParam MultipartFile imageFile, Model model) throws Exception {
+        dagnService service = dagnService.getService();
+        dagnMember member= null;
+        String filename = null;
         if (imageFile != null && !imageFile.isEmpty()) {
-            System.out.println("이미지 불러오기 성공, ");
-            member = new dagnMember(id, title, imageFile);
+            //이미지 파일의 네임을 db에 저장하고 구글 클라우드에 이미지 업로드
+            filename = service.uploadImage(imageFile);
+            member = new dagnMember(id, title,filename );
         } else {
-            System.out.println("이미지 null , ");
             member = new dagnMember(id, title);
         }
-        //이미지 주소를 db에 저장하는 service 실행 후 mapper로 dagnDB에 insert 실행
-        dagnService service = dagnService.getService();
-        dagn_mapper.dagnInsert(service.insert(member));
+        //mapper로 dagnDB에 insert 실행
+        dagn_mapper.dagnInsert(member);
         dagnlist_page(model);
         return "dagn/dagn_list";
     }
+
 
 
     //게시글 title 클릭 후 수정 or 삭제 이동
@@ -118,7 +110,4 @@ public class dagnController {
         dagnlist_page(model);
         return "dagn/dagn_list";
     }
-
-
-
 }

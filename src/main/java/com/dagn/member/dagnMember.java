@@ -13,6 +13,7 @@ public class dagnMember {
     private String Dagn_user_id, Dagn_title;
     private String Dagn_create_date, Dagn_modified_date; //게시판 출력 타입
     private MultipartFile imageFile;
+    private String imageName;
 
 
     public dagnMember(String Dagn_id, String Dagn_title) {
@@ -26,7 +27,7 @@ public class dagnMember {
         imageFile = null;
     }
 
-    public dagnMember(String Dagn_id, String Dagn_title, MultipartFile imageFile) {
+    public dagnMember(String Dagn_id, String Dagn_title, String imageName) {
         this.Dagn_user_id = Dagn_id;
         this.Dagn_title = Dagn_title;
 
@@ -34,7 +35,7 @@ public class dagnMember {
         Dagn_create_date = df.format(new Date());
         Dagn_modified_date = df.format(new Date());
 
-        this.imageFile = imageFile;
+        this.imageName = imageName;
     }
 
     public String getId() {

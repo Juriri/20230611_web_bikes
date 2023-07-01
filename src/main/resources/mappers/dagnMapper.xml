@@ -22,12 +22,12 @@
 <!--    </insert>-->
     <insert id="dagnInsert" parameterType="com.dagn.member.dagnMember">
         <choose>
-            <when test="imageFile != null">
-                insert into Dagn (Dagn_user_id, Dagn_title, Dagn_create_date, Dagn_modified_date, imageFile)
-                values (#{Dagn_user_id}, #{Dagn_title}, #{Dagn_create_date}, #{Dagn_modified_date}, #{imageFile})
+            <when test="imageName != null">
+                insert into Dagn (Dagn_user_id, Dagn_title, Dagn_create_date, Dagn_modified_date, imageName)
+                values (#{Dagn_user_id}, #{Dagn_title}, #{Dagn_create_date}, #{Dagn_modified_date}, #{imageName})
             </when>
             <otherwise>
-                insert into Dagn (Dagn_user_id, Dagn_title, Dagn_create_date, Dagn_modified_date, imageFile)
+                insert into Dagn (Dagn_user_id, Dagn_title, Dagn_create_date, Dagn_modified_date, imageName)
                 values (#{Dagn_user_id}, #{Dagn_title}, #{Dagn_create_date}, #{Dagn_modified_date}, null)
             </otherwise>
         </choose>

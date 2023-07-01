@@ -41,7 +41,8 @@
             <div th:each="dao, iterStat:${list}" class="col">
                 <div class="card shadow-sm">
                     <!--이미지 삽입-->
-                    <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+                    <img class="bd-placeholder-img card-img-top" th:if="${dao.getImageName()}" th:src="@{'https://storage.googleapis.com/bikes_web/' + ${dao.getImageName()}}" alt=width="100%" height="225">
+                    <img class="bd-placeholder-img card-img-top" th:unless="${dao.getImageName()}" th:src="@{'https://storage.googleapis.com/bikes_web/no_image.png'}" alt=width="100%" height="225">
                     <div class="card-body">
                         <table class="row mb-4 text-center">
                             <ul class="list-unstyled mt-3 mb-4">
