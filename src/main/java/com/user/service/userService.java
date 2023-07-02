@@ -11,7 +11,6 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Objects;
 
 @Data
@@ -19,11 +18,31 @@ import java.util.Objects;
 @Service
 public class userService {
     private userInterface user_mapper;
+    //싱글톤 인스턴스
+    private static userService service = new userService();
+
     @Autowired
     public userService(userInterface user_mapper) {
         this.user_mapper = user_mapper;
     }
 
+    public static userService getService(){
+        return service;
+    }
+
+    //로그인 세션의 userDTO 반환
+    public userDTO getSession(HttpServletRequest request){
+        userDTO userDTO = null;
+        try{
+            HttpSession session = request.getSession();
+            session.getAttribute("loginMember");
+            System.out.println(session.getAttribute("loginMember"));
+            return userDTO;
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return userDTO;
+    }
     //로그인 처리 (DB에서 아이디 및 패스워드 유효성 확인)
     public HashMap<Integer, String> Signin(HttpServletRequest request, String user_id, String pw, String re_pw){
 

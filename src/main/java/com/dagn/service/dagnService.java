@@ -76,14 +76,14 @@ public class dagnService {
 
     //게시글에 등록한 이미지를 구글 클라우드에 저장
     public String uploadImage(MultipartFile imageFile) throws Exception {
+        String fileName = null;
         if (imageFile != null && !imageFile.isEmpty()) {
             // 업로드할 파일 경로
             File destFile = new File(imageFile.getOriginalFilename());
-            String filePath = destFile.getAbsolutePath(); //->destFile.getAbsolutePath()
+            String filePath = destFile.getAbsolutePath(); //-> /Users/ihyunju/Desktop/web_bikes
 
             Storage storage = null;
-
-            String fileName = imageFile.getOriginalFilename();
+            fileName = imageFile.getOriginalFilename();
 
             try {
                 // Google Cloud Storage 인증 정보 로드
@@ -109,9 +109,9 @@ public class dagnService {
                 }
             }
 
-            return fileName;
+
         }
-        return null;
+        return fileName;
     }
 
     //title 클릭 후 해당 객체 select 화면 처리

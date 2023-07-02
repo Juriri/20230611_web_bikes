@@ -16,9 +16,9 @@ import java.util.List;
 @Controller
 @AllArgsConstructor
 public class dagnController {
+
     @Autowired
     private dagnInterface dagn_mapper;
-
 
     //전체 select 조회 메서드
     @RequestMapping(value={"/dagnList"})
@@ -56,6 +56,7 @@ public class dagnController {
         String filename = null;
         if (imageFile != null && !imageFile.isEmpty()) {
             //이미지 파일의 네임을 db에 저장하고 구글 클라우드에 이미지 업로드
+
             filename = service.uploadImage(imageFile);
             member = new dagnMember(id, title,filename );
         } else {
