@@ -55,11 +55,10 @@ public class dagnController {
         dagnMember member= null;
         String filename = null;
         if (imageFile != null && !imageFile.isEmpty()) {
-            //이미지 파일의 네임을 db에 저장하고 구글 클라우드에 이미지 업로드
-
-            filename = service.uploadImage(imageFile);
-            member = new dagnMember(id, title,filename );
+            //구글 클라우드에 이미지 업로드
+            member = new dagnMember(id, title, imageFile);
         } else {
+            //이미지 없으면 id, title만 저장
             member = new dagnMember(id, title);
         }
         //mapper로 dagnDB에 insert 실행
