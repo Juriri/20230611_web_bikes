@@ -45,11 +45,10 @@ public class dagnController {
     }
 
     //게시글 등록창 이동
-    @ResponseBody
     @RequestMapping(value={"/dagnRegister"})
     public String Register_page() {
         // 응답 메시지를 JSON 형식으로 생성
-        return "로그인 먼저 하세요.";
+        return "dagn/dagn_register";
     }
 
     //게시글 insert 메서드
