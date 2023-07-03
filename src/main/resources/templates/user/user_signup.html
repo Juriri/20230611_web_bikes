@@ -61,6 +61,10 @@
         <label>
             <input type="password" id="user_password" name="user_password" placeholder="password" class="login-input-box">
         </label>
+        <div class="login-id-label">비밀번호 확인</div>
+        <label>
+            <input type="password" id="user_re_password" name="user_re_password" placeholder="password" class="login-input-box">
+        </label>
 
         <div class="login-id-label">이름</div>
         <label>
@@ -78,6 +82,7 @@
       var param = {
           "user_id" : $('#user_id').val(),
           "user_password" : $('#user_password').val(),
+          "user_re_password" : $('#user_re_password').val(),
           "user_name" : $('#user_name').val()
       };
       //var user_id =  $("#user_id").val();
@@ -90,16 +95,35 @@
           url : "/user/save",
           dataType : "json",
 
-          success : function(data) {
-              if (data > 0) {
-                  alert("아이디가 존재합니다. 다른 아이디를 입력해주세요.");
+          success: function(data) {
+              /*{0=회원가입 성공입니다. }
+                {1=입력하신 두 패스워드가 일치하지 않습니다. }
+                {2=입력하신 id는 기존 가입된 id입니다.  }*/
+              if (data && typeof data === "object") {
+                  var responseData = data;
+                  var value = null;
+
+                  for (var key in responseData) {
+                      if (responseData.hasOwnProperty(key)) {
+                          value = responseData[key];
+                          alert(value);
+                          if (key === "0") {
+                              //회원가입 성공하여 홈 화면으로 이동
+                              window.location.href = "/user/login";
+                          }
+                          break;
+                      }
+                  }
+
+                  if (value === null) {
+                      alert("잘못된 응답 데이터입니다.");
+                  }
               } else {
-                  alert($('#user_id').val()+"의 회원가입 완료되었습니다.");
-                  window.location.href = "/user/login";
+                  alert("잘못된 응답 형식입니다.");
               }
           },
-          error : function(error) {
-              alert("error : " + error);
+          error: function(error) {
+              alert("error: " + error);
           }
       });
   }
