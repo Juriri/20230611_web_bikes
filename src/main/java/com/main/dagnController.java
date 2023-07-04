@@ -33,6 +33,8 @@ public class dagnController {
         return "dagn/dagn_list";
     }
 
+
+
     //조건 select 메서드
     @RequestMapping(value={"/search"})
     public String dagnSearch(@RequestParam String searchType, @RequestParam String keyword, Model model) {

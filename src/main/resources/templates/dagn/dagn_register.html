@@ -5,6 +5,28 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>중고거래 게시글 등록창</title>
+  <style>
+    .album {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+    }
+
+    .container {
+      max-width: 400px;
+      padding: 20px;
+      background-color: white;
+      border-radius: 10px;
+    }
+
+    .form-control {
+      margin-bottom: 1em;
+      width: 100%;
+      padding: 5px;
+    }
+
+  </style>
 </head>
 <body>
 <header th:replace="~{dagn/common/dagn_head :: dagn_head}"></header>
@@ -19,8 +41,8 @@
   </section>
 </main>
 <div class="album py-5 bg-body-tertiary">
-  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-
+<!--  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">-->
+  <div class="container">
     <form id="registerForm"  autocomplete="off" action="/dagnInsert" method="post" enctype="multipart/form-data">
       <div class="col-md-7 col-lg-8">
       <div class="row g-3">
@@ -39,11 +61,10 @@
           <input name="imageFile" type="file" class="custom-file-input" id="imageFile" />
         </div>
 
-        <input type="submit" class="w-100 btn btn-primary btn-lg" value="전송">
+        <input type="submit" class="w-100 btn btn-primary btn-lg" value="게시글 등록">
       </div>
       </div>
     </form>
-
   </div>
 </div>
 <hr class="featurette-divider">
