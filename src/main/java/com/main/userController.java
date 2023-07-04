@@ -4,7 +4,6 @@ import com.main.Interface.userInterface;
 import com.user.member.userDTO;
 import com.user.service.userService;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,15 +17,18 @@ public class userController {
     @Autowired
     private userInterface user_mapper;
 
-    // 로그인 페이지 이동
+    // 로그인 View
     @GetMapping("/user/login")
     public String login_page() {
         return "user/user_login";
     }
+
+
+    //권한이 없는 창에 로그인 시도 시 해당 문구 출력
+    @PostMapping("/api/login")
     @ResponseBody
-    @PostMapping("/user/login.do")
-    public boolean login() {
-        return true;
+    public String login() {
+        return "로그인 하겠습니다. ";
     }
 
     //로그아웃 실행 후 메인 페이지 이동
@@ -60,7 +62,7 @@ public class userController {
         return map;
     }
 
-    //로그인 확인
+    //로그인 api
     @ResponseBody
     @PostMapping("/user/loginclick")
     public HashMap<Integer, String> checkId(HttpServletRequest request, @RequestParam String user_id, @RequestParam String pw) {

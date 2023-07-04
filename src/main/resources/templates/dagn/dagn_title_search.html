@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>중고거래 게시글 등록창</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 <body>
 <header th:replace="~{dagn/common/dagn_head :: dagn_head}"></header>
@@ -19,13 +20,12 @@
     </section>
 </main>
 <div class="album py-5 bg-body-tertiary">
-    <form id="updateForm"  autocomplete="off" action="/dagnUpdate_Obj" method="post">
         <div class="out_id">
             <table>
                 <tr>
                     <td>작성자</td>
                     <td th:text="${dto.getId()}"></td>
-                    <input type="hidden" name="user_id" th:value="${dto.getId()}">
+                    <input type="hidden" id="user_id" name="user_id" th:value="${dto.getId()}">
                 </tr>
             </table>
         </div>
@@ -34,13 +34,13 @@
                 <tr>
                     <td>제목</td>
                     <td th:text="${dto.getTitle()}"></td>
-                    <input type="hidden" name="old_title" th:value="${dto.getTitle()}">
+                    <input type="hidden" id="old_title" name="old_title" th:value="${dto.getTitle()}">
                 </tr>
             </table>
         </div>
         <div class="update_group fl">
-            <input type="text" name="new_title" placeholder="제목 수정: "/>
-            <button onclick="sendNewTitle()">전송</button>
+            <input type="text" id="new_title" name="new_title" placeholder="제목 수정: "/>
+            <button type="button" id="updateButton" onclick="sendNewTitle()">변경</button>
         </div>
         <div class="out_image">
             <table>
@@ -50,9 +50,6 @@
                 </tr>
             </table>
         </div>
-        <!--제목수정-->
-
-    </form>
     <div class="out_cdates">
         <td>게시글 생성날짜</td>
         <td th:text="${dto.getCreate_date()}">
@@ -66,17 +63,31 @@
 <script type="text/javascript">
     function sendNewTitle() {
         var param = {
-            "user_id" : $('#user_id').val(),
-            "old_title" : $('#old_title').val(),
-            "new_title" : $('#new_title').val()
+            "user_id": document.getElementById('user_id').value,
+            "old_title": document.getElementById('old_title').value,
+            "new_title": document.getElementById('new_title').value
         };
+
         $.ajax({
             async: true,
             type : 'POST',
             data: param,
             cache: false,
-            url : "/dagnUpdate_Obj",
-            dataType : "json"
+            url : "/api/dagnUpdate_Obj",
+            dataType : "json",
+
+            success: function(response) {
+                if (response === true) {
+                    alert("성공적으로 게시글이 변경되었습니다.");
+                } else {
+                    alert("게시글 등록에 실패했습니다.");
+                }
+                window.location.href = "/dagnList";
+
+            },
+            error: function(error) {
+                alert("error: " + error);
+            }
         });
     }
 </script>
