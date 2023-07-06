@@ -47,7 +47,7 @@
                         <table class="row mb-4 text-center">
                             <ul class="list-unstyled mt-3 mb-4">
                                     <li><p class="card-text">
-                                        작성자 ID:
+                                        작성자:
                                         <span th:id="Dagn_user_id"
                                               th:text="${dao.getId()}"></span>
                                     </p></li>
@@ -59,13 +59,13 @@
                                     </p></li>
 
                                     <li><p class="card-text">
-                                        작성일:
+                                        게시글 작성일:
                                         <span th:id="create_date"
                                               th:text="${dao.getCreate_date()}"></span>
                                     </p></li>
 
                                     <li><p class="card-text">
-                                        생성일:
+                                        마지막 수정일:
                                         <span th:id="modified_date"
                                               th:text="${dao.getModified_date()}"></span>
                                     </p></li>

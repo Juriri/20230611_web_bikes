@@ -109,7 +109,6 @@ public class dagnController {
         List<dagnMember> dagn_list = dagnlist();
         if(service.update(user_id, old_title, new_title, dagn_list)) {
             dagn_mapper.dagnUpdate(new_title, user_id);
-            System.out.println("true 전송: ");
             return true;
         } else {
             System.out.println("false 전송: ");
