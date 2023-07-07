@@ -5,6 +5,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>중고거래 게시글 등록창</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <style>
+        .form-container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .form-container h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-container label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .form-container input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .form-container button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
 <header th:replace="~{dagn/common/dagn_head :: dagn_head}"></header>
@@ -20,44 +60,45 @@
     </section>
 </main>
 <div class="album py-5 bg-body-tertiary">
-        <div class="out_id">
-            <table>
-                <tr>
-                    <td>작성자</td>
-                    <td th:text="${dto.getId()}"></td>
-                    <input type="hidden" id="user_id" name="user_id" th:value="${dto.getId()}">
-                </tr>
-            </table>
-        </div>
-        <div class="out_title">
-            <table>
-                <tr>
-                    <td>제목</td>
-                    <td th:text="${dto.getTitle()}"></td>
-                    <input type="hidden" id="old_title" name="old_title" th:value="${dto.getTitle()}">
-                </tr>
-            </table>
-        </div>
-        <div class="update_group fl">
-            <input type="text" id="new_title" name="new_title" placeholder="제목 수정: "/>
+    <div class="form-container">
+        <h1>게시글 수정</h1>
+        <form>
+            <div class="form-group">
+                <label for="user_id">작성자</label>
+                <td th:text="${dto.getId()}"></td>
+                <input type="hidden" id="user_id" name="user_id" th:value="${dto.getId()}">
+            </div>
+            <br>
+            <div class="form-group">
+                <label for="old_title">기존 제목</label>
+                <td th:text="${dto.getTitle()}"></td>
+                <input type="hidden" id="old_title" name="old_title" th:value="${dto.getTitle()}">
+            </div>
+            <br>
+            <div class="form-group">
+                <label for="new_title">새로운 제목</label>
+                <input type="text" id="new_title" name="new_title" placeholder="제목 수정">
+            </div>
+            <div class="image-container">
+                <img class="bd-placeholder-img card-img-top" th:if="${dto.getImageName()}" th:src="@{'https://storage.googleapis.com/bikes_web/' + ${dto.getImageName()}}">
+                <img class="bd-placeholder-img card-img-top" th:unless="${dto.getImageName()}" th:src="@{'https://storage.googleapis.com/bikes_web/no_image.png'}">
+            </div>
+            <div class="form-group">
+                <label for="image_file">이미지 파일</label>
+                <input type="file" id="image_file" name="image_file">
+            </div>
             <button type="button" id="updateButton" onclick="sendNewTitle()">변경</button>
+        </form>
+        <br>
+        <div class="out_cdates">
+            <td>게시글 생성날짜</td>
+            <td th:text="${dto.getCreate_date()}">
         </div>
-        <div class="out_image">
-            <table>
-                <tr>
-                    <img class="bd-placeholder-img card-img-top" th:if="${dto.getImageName()}" th:src="@{'https://storage.googleapis.com/bikes_web/' + ${dto.getImageName()}}" alt=width="1%" height="225">
-                    <img class="bd-placeholder-img card-img-top" th:unless="${dto.getImageName()}" th:src="@{'https://storage.googleapis.com/bikes_web/no_image.png'}" alt=width="10%" height="225">
-                </tr>
-            </table>
-        </div>
-    <div class="out_cdates">
-        <td>게시글 생성날짜</td>
-        <td th:text="${dto.getCreate_date()}">
-    </div>
 
-    <div class="out_mdates">
-        <td>게시글 마지막 수정 날짜</td>
-        <td th:text="${dto.getModified_date()}">
+        <div class="out_mdates">
+            <td>게시글 마지막 수정 날짜</td>
+            <td th:text="${dto.getModified_date()}">
+        </div>
     </div>
 </div>
 <script type="text/javascript">

@@ -4,37 +4,52 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <title>Title</title>
+    <title>회원 가입</title>
     <style>
-        .album {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100%;
-            background-color: var(--bs-body-tertiary-bg);
+        body {
+            font-family: Arial, sans-serif;
         }
 
         .container {
             max-width: 400px;
+            margin: 0 auto;
             padding: 20px;
-            background-color: white;
+            background-color: #f5f5f5;
             border-radius: 10px;
         }
 
-        .login-id-label {
-            font-size: 1.2em;
-            margin-bottom: 0.5em;
+        .container h1 {
+            text-align: center;
+            margin-bottom: 20px;
         }
 
-        .login-input-box {
-            margin-bottom: 1em;
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="password"] {
             width: 100%;
-            padding: 5px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
         }
 
-        #login-id-submit {
-            padding: 10px 20px;
-            font-size: 1.2em;
+        #signupButton {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -44,90 +59,82 @@
     <section class="py-5 text-center container">
         <div class="row py-lg-5">
             <div class="col-lg-6 col-md-8 mx-auto">
-                <h1 class="fw-light">회원가입</h1>
-                <p class="lead text-body-secondary">회원 가입 창입니다. </p>
+                <h1 class="fw-light">회원 가입</h1>
+                <p class="lead text-body-secondary">회원 가입 창입니다.</p>
             </div>
         </div>
     </section>
 </main>
-<div class="album py-5 bg-body-tertiary">
-    <div class="container">
-        <div class="login-id-label">아이디</div>
-        <label>
-            <input type="text" id="user_id" name="user_id" placeholder="id" class="login-input-box">
-        </label>
-
-        <div class="login-id-label">비밀번호</div>
-        <label>
-            <input type="password" id="user_password" name="user_password" placeholder="password" class="login-input-box">
-        </label>
-        <div class="login-id-label">비밀번호 확인</div>
-        <label>
-            <input type="password" id="user_re_password" name="user_re_password" placeholder="password" class="login-input-box">
-        </label>
-
-        <div class="login-id-label">이름</div>
-        <label>
-            <input type="text" id="user_name" name="user_name" placeholder="name" class="login-input-box">
-        </label>
-
-        <input type="submit" id="login-id-submit" onclick="btn_signup()" value="가입하기">
-
-    </div>
+<div class="container">
+    <form id="signupForm">
+        <div class="form-group">
+            <label for="user_id">아이디</label>
+            <input type="text" id="user_id" name="user_id">
+        </div>
+        <div class="form-group">
+            <label for="user_password">비밀번호</label>
+            <input type="password" id="user_password" name="user_password">
+        </div>
+        <div class="form-group">
+            <label for="user_re_password">비밀번호 확인</label>
+            <input type="password" id="user_re_password" name="user_re_password">
+        </div>
+        <div class="form-group">
+            <label for="user_name">이름</label>
+            <input type="text" id="user_name" name="user_name">
+        </div>
+        <button type="submit" id="signupButton">가입하기</button>
+    </form>
 </div>
 <!-- Alert을 출력하기 위한 JavaScript 코드 -->
 <script type="text/javascript">
-  function btn_signup() {
-      //userid 를 param.
-      var param = {
-          "user_id" : $('#user_id').val(),
-          "user_password" : $('#user_password').val(),
-          "user_re_password" : $('#user_re_password').val(),
-          "user_name" : $('#user_name').val()
-      };
-      //var user_id =  $("#user_id").val();
+    $(document).ready(function () {
+        $('#signupForm').submit(function (e){
+            e.preventDefault(); // 폼 기본 동작 중지
 
-      $.ajax({
-          async: true,
-          type : 'POST',
-          data: param,
-          cache: false,
-          url : "/user/save",
-          dataType : "json",
+            var param = {
+                "user_id": $('#user_id').val(),
+                "user_password": $('#user_password').val(),
+                "user_re_password": $('#user_re_password').val(),
+                "user_name": $('#user_name').val()
+            };
 
-          success: function(data) {
-              /*{0=회원가입 성공입니다. }
-                {1=입력하신 두 패스워드가 일치하지 않습니다. }
-                {2=입력하신 id는 기존 가입된 id입니다.  }*/
-              if (data && typeof data === "object") {
-                  var responseData = data;
-                  var value = null;
+            $.ajax({
+                async: true,
+                type: 'POST',
+                data: param,
+                cache: false,
+                url: "/user/save",
+                dataType: "json",
+                success: function (data) {
+                    if (data && typeof data === "object") {
+                        var responseData = data;
+                        var value = null;
 
-                  for (var key in responseData) {
-                      if (responseData.hasOwnProperty(key)) {
-                          value = responseData[key];
-                          alert(value);
-                          if (key === "0") {
-                              //회원가입 성공하여 홈 화면으로 이동
-                              window.location.href = "/user/login";
-                          }
-                          break;
-                      }
-                  }
+                        for (var key in responseData) {
+                            if (responseData.hasOwnProperty(key)) {
+                                value = responseData[key];
+                                alert(value);
+                                if (key === "0") {
+                                    window.location.href = "/user/login";
+                                }
+                                break;
+                            }
+                        }
 
-                  if (value === null) {
-                      alert("잘못된 응답 데이터입니다.");
-                  }
-              } else {
-                  alert("잘못된 응답 형식입니다.");
-              }
-          },
-          error: function(error) {
-              alert("error: " + error);
-          }
-      });
-  }
-
+                        if (value === null) {
+                            alert("잘못된 응답 데이터입니다.");
+                        }
+                    } else {
+                        alert("잘못된 응답 형식입니다.");
+                    }
+                },
+                error: function (error) {
+                    alert("error: " + error);
+                }
+            });
+        });
+    });
 </script>
 </body>
 </html>

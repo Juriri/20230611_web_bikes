@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.css" />
+  <script src="/webjars/jquery/3.5.1/dist/jquery.min.js"></script>
+  <title>대한민국 지도</title>
+  <style>
+    #map-container {
+      display: flex;
+      align-items: center;
+    }
+
+    #map {
+      flex: 1;
+      height: 800px;
+    }
+
+    #map-image {
+      width: 600px;
+      height: 600px;
+      background-size: cover;
+      margin-right: 20px;
+    }
+  </style>
+</head>
+<body>
+<header th:replace="~{dagn/common/dagn_head :: dagn_head}"></header>
+<main>
+  <section class="py-5 text-center container">
+    <div class="row py-lg-5">
+      <div class="col-lg-6 col-md-8 mx-auto">
+        <h1 class="fw-light">전국 자전거 코스</h1>
+        <p class="lead text-body-secondary">전국의 자전거 매장 리스트입니다.</p>
+      </div>
+    </div>
+  </section>
+</main>
+<button type="button" id="seoul">서울</button>
+<button type="button" id="busan">부산</button>
+<div id="map-container">
+  <div id="map-image"></div>
+  <div id="map"></div>
+</div>
+
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=27f4d868d65ba3844bea292b13f3a61f&libraries=services"></script>
+<!--<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=27f4d868d65ba3844bea292b13f3a61f&libraries=services"></script>-->
+<script>
+  var startLat = 37.5514; //출발지 위도;
+  var startLng = 126.9880; //출발지 경도;
+  var endLat = 37.7599; //도착지 위도;
+  var endLng = 126.7795; //도착지 경도;
+  var container = document.getElementById('map');
+  var options = {
+    center: new kakao.maps.LatLng(startLat, startLng), // 지도 중심 좌표 설정
+    level: 13
+  };
+
+  var map = new kakao.maps.Map(container, options);
+
+  // 출발지와 도착지 마커 생성
+  var startMarker = new kakao.maps.Marker({
+    position: new kakao.maps.LatLng(startLat, startLng), // 출발지 좌표 설정
+    map: map
+  });
+
+  var endMarker = new kakao.maps.Marker({
+    position: new kakao.maps.LatLng(endLat, endLng), // 도착지 좌표 설정
+    map: map
+  });
+
+//========길찾기==========
+  var service = new kakao.maps.Directions();
+
+  var request = {
+    origin: new kakao.maps.LatLng(startLat, startLng),
+    destination: new kakao.maps.LatLng(endLat, endLng),
+    travelMode: kakao.maps.services.TravelMode.BICYCLE
+  };
+  service.route(request, function(result, status) {
+    if (status === kakao.maps.services.Status.OK) {
+      var path = [];
+      var polyline = new kakao.maps.Polyline({
+        strokeWeight: 3,
+        strokeColor: '#FF0000',
+        strokeOpacity: 0.7,
+        strokeStyle: 'solid'
+      });
+
+      for (var i = 0; i < result.routes[0].sections.length; i++) {
+        var pathFragment = result.routes[0].sections[i].path;
+        path = path.concat(pathFragment);
+      }
+
+      polyline.setPath(path);
+      polyline.setMap(map);
+    }
+  });
+</script>
+</body>
+</html>

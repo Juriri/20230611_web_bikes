@@ -89,6 +89,40 @@ public class dagnMember {
         this.Dagn_title = Dagn_title;
     }
 
+    public void setImage(MultipartFile imageFile) throws Exception {
+        // Google Cloud 인증 정보 파일 경로
+        String credentialsPath = "/Users/ihyunju/Downloads/excellent-sunup-391513-ed2ce961fd2a.json";
+        // Google Cloud Storage 버킷 이름
+        String bucketName = "bikes_web";
+        // 파일 네임
+        this.imageName = imageFile.getOriginalFilename();
+
+        Storage storage = null;
+
+        try {
+            // Google Cloud Storage 인증 정보 로드
+            GoogleCredentials credentials = GoogleCredentials.fromStream(new FileInputStream(credentialsPath));
+
+            // Google Cloud Storage 클라이언트 초기화
+            storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
+
+            // 업로드할 파일 객체 생성
+            BlobId blobId = BlobId.of(bucketName, this.imageName);
+            BlobInfo blobInfo = BlobInfo.newBuilder(blobId).build();
+
+            // 파일 업로드
+            storage.create(blobInfo, imageFile.getBytes());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            // Google Cloud Storage 클라이언트 종료
+            if (storage != null) {
+                storage.close();
+            }
+        }
+    }
+
     public void setCreate_date(String Dagn_create_date) {
         this.Dagn_create_date = Dagn_create_date;
     }

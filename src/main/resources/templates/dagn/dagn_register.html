@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <title>중고거래 게시글 등록창</title>
   <style>
     .album {
@@ -59,6 +60,7 @@
         <div class="col-12">
           <label for="imageFile" class="form-label"><strong>이미지 파일</strong></label>
           <input name="imageFile" type="file" class="custom-file-input" id="imageFile" />
+          <div id="previewContainer"></div>
         </div>
 
         <input type="submit" class="w-100 btn btn-primary btn-lg" value="게시글 등록">
@@ -69,4 +71,31 @@
 </div>
 <hr class="featurette-divider">
 </body>
+<script type="text/javascript">
+  // 이미지 파일 선택 시 실행되는 함수
+  function handleFileSelect(event) {
+    const files = event.target.files; // 선택된 파일 목록
+
+    // 파일을 하나씩 처리
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      const reader = new FileReader();
+
+      // 파일을 읽어들일 때 실행되는 함수
+      reader.onload = function (event) {
+        const image = document.createElement('img');
+        image.src = event.target.result;
+        image.className = 'previewImage';
+
+        // 미리보기 컨테이너에 이미지 추가
+        document.getElementById('previewContainer').appendChild(image);
+      };
+
+      // 파일 읽기 시작
+      reader.readAsDataURL(file);
+    }
+  }
+  // input 요소에 change 이벤트 리스너 추가
+  document.getElementById('imageFile').addEventListener('change', handleFileSelect);
+</script>
 </html>
