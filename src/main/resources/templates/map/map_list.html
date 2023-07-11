@@ -1,102 +1,117 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.css" />
-  <script src="/webjars/jquery/3.5.1/dist/jquery.min.js"></script>
-  <title>대한민국 지도</title>
+  <title>자전거 도로 경로 표시</title>
   <style>
-    #map-container {
-      display: flex;
-      align-items: center;
-    }
-
     #map {
-      flex: 1;
-      height: 800px;
-    }
-
-    #map-image {
-      width: 600px;
       height: 600px;
-      background-size: cover;
-      margin-right: 20px;
+      width: 50%;
     }
   </style>
 </head>
 <body>
-<header th:replace="~{dagn/common/dagn_head :: dagn_head}"></header>
-<main>
-  <section class="py-5 text-center container">
-    <div class="row py-lg-5">
-      <div class="col-lg-6 col-md-8 mx-auto">
-        <h1 class="fw-light">전국 자전거 코스</h1>
-        <p class="lead text-body-secondary">전국의 자전거 매장 리스트입니다.</p>
-      </div>
-    </div>
-  </section>
-</main>
-<button type="button" id="seoul">서울</button>
-<button type="button" id="busan">부산</button>
-<div id="map-container">
-  <div id="map-image"></div>
-  <div id="map"></div>
-</div>
+<div id="map"></div>
 
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=27f4d868d65ba3844bea292b13f3a61f&libraries=services"></script>
-<!--<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=27f4d868d65ba3844bea292b13f3a61f&libraries=services"></script>-->
+<script src="https://www.openlayers.org/api/OpenLayers.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
-  var startLat = 37.5514; //출발지 위도;
-  var startLng = 126.9880; //출발지 경도;
-  var endLat = 37.7599; //도착지 위도;
-  var endLng = 126.7795; //도착지 경도;
-  var container = document.getElementById('map');
-  var options = {
-    center: new kakao.maps.LatLng(startLat, startLng), // 지도 중심 좌표 설정
-    level: 13
-  };
+  $(document).ready(function() {
+    // AJAX request to fetch latitude and longitude values from the controller
+    $.ajax({
+      url: '/api/map_list',
+      type: 'POST',
+      success: function(data) {
+        // Extract latitude and longitude values
+        var startLat = parseFloat(data[0].latitude);
+        var startLon = parseFloat(data[0].longitude);
+        var endLat = parseFloat(data[data.size()-1].latitude);
+        var endLon = parseFloat(data[1].longitude);
+        var url = data[2].url;
 
-  var map = new kakao.maps.Map(container, options);
+        //src, dst 위도, 경도
+        var startLat = parseFloat(data[0]);
+        var startLon = parseFloat(data[1]);
+        var endLat = parseFloat(data[2]);
+        var endLon = parseFloat(data[3]);
+        var url = data[4];
 
-  // 출발지와 도착지 마커 생성
-  var startMarker = new kakao.maps.Marker({
-    position: new kakao.maps.LatLng(startLat, startLng), // 출발지 좌표 설정
-    map: map
-  });
+        function initMap() {
+          var map = new OpenLayers.Map("map");
+          var mapnik = new OpenLayers.Layer.OSM();
 
-  var endMarker = new kakao.maps.Marker({
-    position: new kakao.maps.LatLng(endLat, endLng), // 도착지 좌표 설정
-    map: map
-  });
+          map.addLayer(mapnik);
+          map.setCenter(new OpenLayers.LonLat(startLon, startLat).transform(
+                  new OpenLayers.Projection("EPSG:4326"),
+                  map.getProjectionObject()
+          ), 12);
 
-//========길찾기==========
-  var service = new kakao.maps.Directions();
+          var markers = new OpenLayers.Layer.Markers("Markers");
+          map.addLayer(markers);
 
-  var request = {
-    origin: new kakao.maps.LatLng(startLat, startLng),
-    destination: new kakao.maps.LatLng(endLat, endLng),
-    travelMode: kakao.maps.services.TravelMode.BICYCLE
-  };
-  service.route(request, function(result, status) {
-    if (status === kakao.maps.services.Status.OK) {
-      var path = [];
-      var polyline = new kakao.maps.Polyline({
-        strokeWeight: 3,
-        strokeColor: '#FF0000',
-        strokeOpacity: 0.7,
-        strokeStyle: 'solid'
-      });
+          var startPoint = new OpenLayers.LonLat(startLon, startLat).transform(
+                  new OpenLayers.Projection("EPSG:4326"),
+                  map.getProjectionObject()
+          );
+          var startMarker = new OpenLayers.Marker(startPoint);
+          markers.addMarker(startMarker);
 
-      for (var i = 0; i < result.routes[0].sections.length; i++) {
-        var pathFragment = result.routes[0].sections[i].path;
-        path = path.concat(pathFragment);
+          var endPoint = new OpenLayers.LonLat(endLon, endLat).transform(
+                  new OpenLayers.Projection("EPSG:4326"),
+                  map.getProjectionObject()
+          );
+          var endMarker = new OpenLayers.Marker(endPoint);
+          markers.addMarker(endMarker);
+
+
+
+          fetch(url)
+                  .then(function(response) {
+                    return response.json();
+                  })
+                  .then(function(data) {
+                    var routeGeometry = data.features[0].geometry;
+                    var routeCoordinates = routeGeometry.coordinates.map(function(coordinate) {
+                      return new OpenLayers.Geometry.Point(coordinate[0], coordinate[1]).transform(
+                              new OpenLayers.Projection("EPSG:4326"),
+                              map.getProjectionObject()
+                      );
+                    });
+
+                    var routeLine = new OpenLayers.Geometry.LineString(routeCoordinates);
+                    var routeFeature = new OpenLayers.Feature.Vector(routeLine);
+
+                    var routeLayer = new OpenLayers.Layer.Vector("Route", {
+                      styleMap: new OpenLayers.StyleMap({
+                        'default': {
+                          strokeWidth: 6, // 경로 두께 설정
+                          strokeColor: 'blue',
+                          strokeOpacity: 0.6
+                        }
+                      })
+                    });
+                    routeLayer.addFeatures([routeFeature]);
+                    map.addLayer(routeLayer);
+
+                    // 출발지 마커 생성
+                    var startMarker = new OpenLayers.Marker(startPoint);
+                    markers.addMarker(startMarker);
+
+                    // 도착지 마커 생성
+                    var endMarker = new OpenLayers.Marker(endPoint);
+                    markers.addMarker(endMarker);
+
+                    // 경로 안내 정보 표시
+                    var routeInfo = document.createElement('div');
+                    routeInfo.innerHTML = '자전거 도로 경로 안내<br>';
+                    routeInfo.innerHTML += '거리: ' + (data.features[0].properties.summary.distance.toFixed(2))/1000 + ' km<br>';
+                    routeInfo.innerHTML += '소요 시간: ' + Math.floor(data.features[0].properties.summary.duration / 60) + ' 분';
+
+                    document.body.appendChild(routeInfo);
+                  });
+        }
+        initMap();
       }
-
-      polyline.setPath(path);
-      polyline.setMap(map);
-    }
+    });
   });
 </script>
 </body>

@@ -1,22 +1,17 @@
 package com.main;
 
-import com.main.Interface.userInterface;
-import com.user.member.userDTO;
-import com.user.service.userService;
-import jakarta.servlet.http.HttpServletRequest;
-import lombok.AllArgsConstructor;
+import com.map.member.mapMember;
+import com.map.service.mapService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import java.util.HashMap;
+
+import java.util.ArrayList;
 
 
 @Controller
 
 public class mapController {
-//    @Autowired
-//    private userInterface user_mapper;
-
     // 로그인 View
     @GetMapping("/map")
     public String map_page() {
@@ -24,11 +19,15 @@ public class mapController {
     }
 
 
-    //권한이 없는 창에 로그인 시도 시 해당 문구 출력
     @PostMapping("/api/map_list")
     @ResponseBody
-    public String map() {
-        return "로그인 하겠습니다. ";
+    public ArrayList<mapMember> map() {
+
+        mapService service = mapService.getService();
+//        ArrayList<Double> list = service.getCourse("서울", 1);
+//        return service.getRoute(list.get(0), list.get(1), list.get(2), list.get(3));
+
+        return service.getLaLoByAddress();
     }
 
 }

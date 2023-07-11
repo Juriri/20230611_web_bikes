@@ -102,25 +102,25 @@
     };
 
     $.ajax({
-    async: true,
-    type: 'POST',
-    data: param,
-    cache: false,
-    url: "/user/loginclick",
-    dataType: "json",
-    success: function (data) {
-    if (data && typeof data === "object") {
-    var responseData = data;
-    var value = null;
+        async: true,
+        type: 'POST',
+        data: param,
+        cache: false,
+        url: "/user/loginclick",
+        dataType: "json",
+        success: function (data) {
+        if (data && typeof data === "object") {
+        var responseData = data;
+        var value = null;
 
-    for (var key in responseData) {
-    if (responseData.hasOwnProperty(key)) {
-    value = responseData[key];
-    alert(value);
-    if (key === "0") {
-    window.location.href = "/";
-    }
-    break;
+        for (var key in responseData) {
+            if (responseData.hasOwnProperty(key)) {
+                value = responseData[key];
+                alert(value);
+            if (key === "0") {
+                window.location.href = "/";
+            }
+        break;
     }
     }
 

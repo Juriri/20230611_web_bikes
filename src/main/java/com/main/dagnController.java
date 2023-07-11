@@ -104,7 +104,7 @@ public class dagnController {
     //게시글 수정 api
     @PostMapping("/api/dagnUpdate_Obj")
     @ResponseBody
-    public boolean dagnupdate(@RequestParam String old_title, @RequestParam String new_title, @RequestParam String user_id, @RequestParam MultipartFile imageFile) {
+    public boolean dagnupdate(@RequestParam String old_title, @RequestParam String new_title, @RequestParam String user_id) {
         dagnService service = dagnService.getService();
         List<dagnMember> dagn_list = dagnlist();
         if(service.update(user_id, old_title, new_title, dagn_list)) {
