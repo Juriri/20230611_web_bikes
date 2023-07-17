@@ -36,7 +36,7 @@ public class dagnMember {
         Dagn_modified_date = df.format(new Date());
 
         // Google Cloud 인증 정보 파일 경로
-        String credentialsPath = "/Users/ihyunju/Downloads/excellent-sunup-391513-ed2ce961fd2a.json";
+        String credentialsPath = "/Users/hyunjulee/Downloads/excellent-sunup-391513-6ac6132c83d8.json";
         // Google Cloud Storage 버킷 이름
         String bucketName = "bikes_web";
         // 파일 네임
@@ -91,7 +91,8 @@ public class dagnMember {
 
     public void setImage(MultipartFile imageFile) throws Exception {
         // Google Cloud 인증 정보 파일 경로
-        String credentialsPath = "/Users/ihyunju/Downloads/excellent-sunup-391513-ed2ce961fd2a.json";
+        String credentialsPath = "/Users/hyunjulee/Downloads/excellent-sunup-391513-6ac6132c83d8.json";
+
         // Google Cloud Storage 버킷 이름
         String bucketName = "bikes_web";
         // 파일 네임

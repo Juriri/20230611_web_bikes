@@ -31,7 +31,8 @@ import static com.google.api.ResourceProto.resource;
 @Service
 public class dagnService {
     // 인증 정보 파일 경로
-    private String credentialsPath = "/Users/ihyunju/Downloads/excellent-sunup-391513-ed2ce961fd2a.json";
+    private String credentialsPath = "/Users/hyunjulee/Downloads/excellent-sunup-391513-6ac6132c83d8.json";
+
     // Google Cloud Storage 버킷 이름
     private String bucketName = "bikes_web";
 
@@ -58,7 +59,8 @@ public class dagnService {
         return dagn_found;
     }
 
-    //수정할 제목 입력 후 해당 제목으로 update 처리
+
+    //수정할 제목 입력 후 해당 제목으로 update
     public boolean update(String user_id, String old_title, String new_title, List<dagnMember> list) {
 
         for(dagnMember member: list){
