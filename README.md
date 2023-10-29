@@ -1,6 +1,7 @@
 
 ### GoTwoBike- 자전거 중고거래 전문 사이트 
-![Uploading image.png…]()
+<img width="362" alt="image" src="https://github.com/Juriri/20230611_web_bikes/assets/29352771/852ce248-ef71-4301-bc97-962f877910a8">
+
 
 > 
 ### REST API
